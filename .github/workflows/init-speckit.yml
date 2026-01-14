@@ -1,0 +1,75 @@
+name: Initialize Spec-Kit
+
+# This workflow initializes spec-kit for the repository
+# It can be run manually and requires a SPEC_KIT_TOKEN secret
+
+on:
+  workflow_dispatch:
+    inputs:
+      ai_assistant:
+        description: 'AI Assistant to use'
+        required: false
+        default: 'copilot'
+        type: choice
+        options:
+          - copilot
+          - claude
+          - gemini
+      script_type:
+        description: 'Script type'
+        required: false
+        default: 'sh'
+        type: choice
+        options:
+          - sh
+          - ps
+
+jobs:
+  initialize-speckit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install uv
+        run: pip install uv
+      
+      - name: Initialize Spec-Kit
+        env:
+          # Use SPEC_KIT_TOKEN if available, fallback to GITHUB_TOKEN
+          GITHUB_TOKEN: ${{ secrets.SPEC_KIT_TOKEN || secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Starting spec-kit initialization..."
+          echo "Using AI assistant: ${{ inputs.ai_assistant }}"
+          echo "Using script type: ${{ inputs.script_type }}"
+          
+          # Run initialization non-interactively is not yet supported
+          # For now, this workflow demonstrates the setup
+          # Manual intervention will be needed for the interactive prompts
+          
+          echo "Note: Spec-kit initialization requires interactive input"
+          echo "To complete setup:"
+          echo "1. Ensure SPEC_KIT_TOKEN secret is configured"
+          echo "2. Run locally: export GITHUB_TOKEN=<token> && uvx --from git+https://github.com/github/spec-kit.git specify init --here"
+          
+          # Verify token is available
+          if [ -n "$GITHUB_TOKEN" ]; then
+            echo "✓ GitHub token is available (length: ${#GITHUB_TOKEN})"
+          else
+            echo "✗ No GitHub token available - setup will fail"
+            exit 1
+          fi
+      
+      - name: Commit spec-kit files
+        if: success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .specify/
+          git commit -m "Initialize spec-kit configuration" || echo "No changes to commit"
+          git push
