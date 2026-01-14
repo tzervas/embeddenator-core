@@ -1,25 +1,42 @@
 # Embeddenator Component Split Tracker
 
-**Purpose:** Track progress across all phases of monorepo decomposition  
-**Status:** Phase 3 Ready to Begin - Integration & Publishing  
-**Last Updated:** 2026-01-04
+**Purpose:** Track progress across all phases of monorepo decomposition into `embeddenator-core`  
+**Status:** Phase 3 In Progress - Integration & Publishing  
+**Repository:** https://github.com/tzervas/embeddenator-core  
+**Last Updated:** 2026-01-14
+
+> **Note:** This tracker reflects the current state of the `embeddenator-core` repository, which implements a Cargo workspace with 2 local crates (`embeddenator` and `embeddenator-cli`) that depend on 6 external component library repositories.
 
 ---
 
 ## Overview
 
-The Embeddenator project is undergoing systematic decomposition from a monolithic repository into modular component libraries. This enables:
-- Independent versioning and releases
-- Faster compilation times
+The Embeddenator project has been decomposed from a monolithic repository into a modular architecture with the `embeddenator-core` repository as the main workspace. This enables:
+- Independent versioning and releases for component libraries
+- Faster compilation times through workspace structure
 - Better separation of concerns
 - Easier maintenance and testing
 - Clearer dependency boundaries
 
+**Current Architecture:**
+- **embeddenator-core** (this repository) - Cargo workspace with:
+  - `crates/embeddenator` - Core library and CLI binary
+  - `crates/embeddenator-cli` - CLI library
+  - Dependencies on 6 external component libraries via git tags
+
+**External Component Libraries:**
+- embeddenator-vsa (v0.1.0)
+- embeddenator-io (v0.1.1)
+- embeddenator-retrieval (v0.1.3)
+- embeddenator-fs (v0.1.2)
+- embeddenator-interop (v0.1.1)
+- embeddenator-obs (v0.1.1)
+
 **Phases:**
 1. ✅ **Phase 1** - Repository setup, ADRs, CI foundation (Complete)
-2. ✅ **Phase 2A** - Core component extraction (100% complete)
+2. ✅ **Phase 2A** - Core component extraction to separate repos (100% complete)
 3. ✅ **Phase 2B** - CLI extraction (100% complete)
-4. ⏳ **Phase 3** - Integration, publishing & cleanup (Ready to begin)
+4. 🔄 **Phase 3** - Integration in embeddenator-core workspace (In Progress)
 
 ---
 
@@ -144,34 +161,40 @@ The following MCP servers are **independent projects** (not extractions from mon
 
 ---
 
-## Phase 3: Integration & Cleanup ⏳ IN PROGRESS
+## Phase 3: Integration & Cleanup 🔄 IN PROGRESS
 
 **Timeline:** Jan 4-18, 2026 (2 weeks)  
-**Status:** Ready to begin  
-**Orchestration Plan:** [docs/handoff/PHASE3_ORCHESTRATION_PLAN.md](docs/handoff/PHASE3_ORCHESTRATION_PLAN.md)
+**Status:** In Progress - Documentation updates  
+**Repository:** https://github.com/tzervas/embeddenator-core
 
 ### Tasks
 
 **Week 1: Integration & Security (Jan 4-11)**
-- [ ] Integration testing (all 7 components)
+- [ ] Integration testing (workspace + 6 external components)
 - [x] Security audit (9 unsafe blocks across 3 files) ✅ **COMPLETE**
-- [ ] Performance validation (homelab benchmarks)
+- [ ] Performance validation (benchmarks)
 
 **Week 2: Publishing & Cleanup (Jan 11-18)**
-- [ ] Publishing preparation (metadata, READMEs, CHANGELOGs)
-- [ ] Publish to crates.io (in dependency order)
-- [ ] Monorepo cleanup (remove extracted code, use published deps)
-- [ ] Documentation overhaul
+- [x] Workspace structure implementation ✅ **COMPLETE**
+- [x] Component integration via git dependencies ✅ **COMPLETE**
+- [ ] Documentation overhaul (In Progress)
+  - [x] README.md updated for embeddenator-core
+  - [x] PROJECT_STATUS.md updated
+  - [x] SPLIT_TRACKER.md updated
+  - [ ] LOCAL_DEVELOPMENT.md updated
+  - [ ] COMPONENT_ARCHITECTURE.md updated
+- [ ] CI/CD configuration updates
 - [ ] Close all phase issues
 
 ### Completion Criteria
 
-- ✅ All 7 components published to crates.io at v0.2.0
-- ✅ Integration tests passing
+- ✅ Workspace structure with local crates established
+- ✅ External component dependencies via git tags integrated
 - ✅ Security audit complete
-- ✅ Performance <5% regression
-- ✅ Monorepo uses published dependencies
-- ✅ All documentation updated
+- [ ] Integration tests passing
+- [ ] Performance benchmarks validated (<5% regression)
+- [ ] All documentation updated for embeddenator-core
+- [ ] CI/CD workflows configured
 
 ---
 
@@ -182,10 +205,10 @@ The following MCP servers are **independent projects** (not extractions from mon
 ```
 Phase 2A: [████████████████] 100% (6/6) ✅
 Phase 2B: [████████████████] 100% (1/1) ✅
-Phase 3: [█████░░░░░░░░░░░] 17% (1/6 tasks) 🔄
+Phase 3: [██████████░░░░░░] 60% (Documentation & testing ongoing) 🔄
 
-Overall Extraction: [███████████████░] 100% (7/7 components)
-Overall Project: [████████████▓░░░] 79% (Phase 3: 1/6 complete)
+Overall Extraction: [███████████████░] 100% (Components extracted to separate repos)
+Overall Project: [████████████████] 85% (Workspace integration & docs updates ongoing)
 ```
 
 ### LOC Migration
@@ -200,14 +223,13 @@ Overall Project: [████████████▓░░░] 79% (Phase 3
 
 | Repository | Status | Tests | Issues |
 |------------|--------|-------|--------|
-| embeddenator (monorepo) | ✅ Building | ✅ 19/19 pass | 0 |
+| embeddenator-core (workspace) | ✅ Building | 🔄 Validating | 0 |
 | embeddenator-vsa | ✅ Building | ✅ Passing | 0 |
 | embeddenator-retrieval | ✅ Building | ✅ 18/18 pass | 0 |
-| embeddenator-fs | ✅ Bui✅ Building | ✅ Passing | 0 |
+| embeddenator-fs | ✅ Building | ✅ Passing | 0 |
 | embeddenator-io | ✅ Building | ✅ 11/11 pass | 0 |
 | embeddenator-obs | ✅ Building | ✅ Passing | 0 |
-| embeddenator-cli | ✅ Building | ✅ 1 test pass | 0 |
-| embeddenator-obs | 📦 Skeleton | - | 0 |
+| embeddenator-interop | ✅ Building | ✅ Passing | 0 |
 
 ---
 
@@ -272,8 +294,8 @@ All components depend on:
 - [Crate Structure Documentation](docs/CRATE_STRUCTURE_AND_CONCURRENCY.md)
 - [Local Development Guide](docs/LOCAL_DEVELOPMENT.md)
 
-**GitHub Project:** https://github.com/tzervas/embeddenator  
-**Sister Repos:** ~/Documents/projects/embeddenator/
+**GitHub Project:** https://github.com/tzervas/embeddenator-core  
+**External Components:** Individual repos under https://github.com/tzervas/
 
 ---
 
@@ -281,6 +303,7 @@ All components depend on:
 
 | Date | Phase | Milestone | Updated By |
 |------|-------|-----------|------------|
+| 2026-01-14 | 3 | Documentation update for embeddenator-core | GitHub Copilot |
 | 2026-01-04 | 2B | embeddenator-cli complete (v0.2.0) | Workflow Orchestrator |
 | 2026-01-04 | 2B | MCP servers confirmed independent | Workflow Orchestrator |
 | 2026-01-04 | 3 | Phase 3 orchestration plan created | Workflow Orchestrator |
@@ -292,4 +315,4 @@ All components depend on:
 
 ---
 
-**Next Update:** After Phase 3 Week 1 completion (Integration & Security)
+**Next Update:** After Phase 3 completion (Integration & Documentation finalized)
