@@ -1,14 +1,16 @@
 # Local Development Guide
 
 **Version:** 0.20.0  
-**Last Updated:** January 4, 2026
+**Last Updated:** January 14, 2026  
+**Repository:** https://github.com/tzervas/embeddenator-core
 
 ## Overview
 
-This guide covers **local development workflows** for working across multiple Embeddenator components simultaneously. It focuses on:
+This guide covers **local development workflows** for the `embeddenator-core` repository, which implements a Cargo workspace with 2 local crates that depend on 6 external component libraries. It focuses on:
 
-- Setting up a multi-repo workspace
-- Using `[patch.crates-io]` for local path dependencies
+- Setting up the workspace environment
+- Working with external component dependencies via git
+- Using `[patch.crates-io]` for local development across components
 - Development iteration patterns
 - Testing strategies
 - Pre-release validation
@@ -24,61 +26,46 @@ This guide covers **local development workflows** for working across multiple Em
 
 ### Directory Structure
 
-Clone all component repos into a common parent directory:
+The `embeddenator-core` repository is a Cargo workspace containing:
+
+```
+embeddenator-core/
+├── Cargo.toml                      # Workspace root
+├── crates/
+│   ├── embeddenator/              # Core library and binary
+│   │   ├── Cargo.toml
+│   │   ├── src/
+│   │   ├── benches/
+│   │   └── tests/
+│   └── embeddenator-cli/          # CLI library
+│       ├── Cargo.toml
+│       └── src/
+├── docs/                          # Documentation
+├── examples/                      # Usage examples
+└── scripts/                       # Utility scripts
+```
+
+**External Component Dependencies** (via git tags):
+- embeddenator-vsa (v0.1.0)
+- embeddenator-io (v0.1.1)
+- embeddenator-retrieval (v0.1.3)
+- embeddenator-fs (v0.1.2)
+- embeddenator-interop (v0.1.1)
+- embeddenator-obs (v0.1.1)
+
+### Clone the Repository
 
 ```bash
-mkdir ~/embeddenator-workspace
-cd ~/embeddenator-workspace
+# Clone the main repository
+git clone https://github.com/tzervas/embeddenator-core.git
+cd embeddenator-core
 
-# Clone core orchestrator
-git clone https://github.com/tzervas/embeddenator
+# Build the workspace
+cargo build
 
-# Clone components (libraries)
-git clone https://github.com/tzervas/embeddenator-vsa
-git clone https://github.com/tzervas/embeddenator-io
-git clone https://github.com/tzervas/embeddenator-retrieval
-git clone https://github.com/tzervas/embeddenator-fs
-git clone https://github.com/tzervas/embeddenator-interop
-git clone https://github.com/tzervas/embeddenator-obs
-
-# Clone tools (optional)
-git clone https://github.com/tzervas/embeddenator-testkit
-git clone https://github.com/tzervas/embeddenator-contract-bench
-git clone https://github.com/tzervas/embeddenator-workspace
+# Run tests
+cargo test --workspace
 ```
-
-**Final structure:**
-```
-~/embeddenator-workspace/
-├── embeddenator/                    (core)
-├── embeddenator-vsa/                (components)
-├── embeddenator-io/
-├── embeddenator-retrieval/
-├── embeddenator-fs/
-├── embeddenator-interop/
-├── embeddenator-obs/
-├── embeddenator-testkit/            (tools)
-├── embeddenator-contract-bench/
-└── embeddenator-workspace/
-```
-
-### Verify Setup
-
-Test that all repos are healthy:
-
-```bash
-cd ~/embeddenator-workspace
-
-for repo in embeddenator-*; do
-  echo "Testing $repo..."
-  (cd "$repo" && cargo check 2>&1 | grep -E "(Compiling|Finished|error)" | head -5)
-done
-
-echo "Testing embeddenator core..."
-(cd embeddenator && cargo check 2>&1 | grep -E "(Compiling|Finished|error)" | head -5)
-```
-
-Expected output: `Finished dev [unoptimized + debuginfo] target(s)` for each repo.
 
 ## Using [patch.crates-io]
 
@@ -101,22 +88,50 @@ Cargo will:
 ### When to Use [patch.crates-io]
 
 ✅ **Use when:**
-- Developing features spanning multiple components
-- Debugging cross-component issues
-- Testing API changes before releasing
-- Rapid iteration with immediate feedback
+- Developing features in external component libraries simultaneously with embeddenator-core
+- Debugging cross-component issues that require changes in external repos
+- Testing component API changes before they're released and tagged
+- Rapid iteration with immediate feedback across workspace and external components
 
 ❌ **Don't use when:**
+- Making changes only within the embeddenator-core workspace (no patches needed)
 - Preparing for release (must test with git tags)
 - Code review (reviewers need reproducible builds)
 - CI/CD pipelines (patches break reproducibility)
-- Single-component changes (work directly in that repo)
+- Single-component changes to external libraries (work directly in that repo)
 
 ### Adding [patch.crates-io]
 
-**Option 1: Workspace-level (recommended for core development)**
+When you need to develop against local checkouts of external component libraries:
 
-In `embeddenator/Cargo.toml` (root), add at the bottom:
+**Step 1: Clone component libraries alongside embeddenator-core**
+
+```bash
+# Create a workspace directory
+mkdir ~/embeddenator-workspace
+cd ~/embeddenator-workspace
+
+# Clone the core repository
+git clone https://github.com/tzervas/embeddenator-core.git
+
+# Clone component libraries you need to modify
+git clone https://github.com/tzervas/embeddenator-vsa.git
+git clone https://github.com/tzervas/embeddenator-io.git
+# ... etc for other components as needed
+```
+
+**Final structure:**
+```
+~/embeddenator-workspace/
+├── embeddenator-core/        # This repository (workspace)
+├── embeddenator-vsa/         # External component library
+├── embeddenator-io/          # External component library
+└── ...                       # Other component libraries as needed
+```
+
+**Step 2: Add patches to workspace root**
+
+In `embeddenator-core/Cargo.toml` (workspace root), add at the bottom:
 
 ```toml
 [patch.crates-io]
@@ -128,22 +143,14 @@ embeddenator-interop = { path = "../embeddenator-interop" }
 embeddenator-obs = { path = "../embeddenator-obs" }
 ```
 
-**Option 2: Component-level (for testing component changes in isolation)**
-
-In a component's `Cargo.toml` (e.g., `embeddenator-retrieval/Cargo.toml`):
-
-```toml
-[patch.crates-io]
-embeddenator-vsa = { path = "../embeddenator-vsa" }
-embeddenator-io = { path = "../embeddenator-io" }
-```
+**Note:** Only patch the components you're actively modifying. You can omit components you're not changing.
 
 ### Removing [patch.crates-io]
 
 Before committing or releasing:
 
 ```bash
-cd embeddenator
+cd embeddenator-core
 
 # Option 1: Comment out (preserves setup)
 sed -i '/\[patch.crates-io\]/,/^$/s/^/# /' Cargo.toml
@@ -157,148 +164,95 @@ grep -A 10 "\[patch.crates-io\]" Cargo.toml || echo "Patches removed ✓"
 # Update to use git tags again
 cargo update
 cargo build --release
-cargo test --all
+cargo test --workspace
 ```
 
 ## Development Workflows
 
-### Workflow 1: Single Component Change
+### Workflow 1: Workspace-Only Changes
 
-**Scenario:** Fix a bug in `embeddenator-vsa`, test in core.
+**Scenario:** Make changes only within the embeddenator-core workspace (no component library changes).
 
 ```bash
-# 1. Work in component repo
-cd ~/embeddenator-workspace/embeddenator-vsa
-git checkout -b fix/cosine-precision
+# 1. Work in the repository
+cd ~/embeddenator-workspace/embeddenator-core
+git checkout -b feat/new-cli-command
 
-# Make changes to src/similarity.rs
-vim src/similarity.rs
+# Make changes to workspace crates
+vim crates/embeddenator-cli/src/lib.rs
+vim crates/embeddenator/src/main.rs
 
-# Test locally
-cargo test
+# Test locally (no patches needed)
+cargo test --workspace
+cargo build --release
 
-# 2. Test in core with [patch.crates-io]
-cd ../embeddenator
-
-# Add patch (if not already present)
-echo '
-[patch.crates-io]
-embeddenator-vsa = { path = "../embeddenator-vsa" }
-' >> Cargo.toml
-
-# Test integration
-cargo test --all
-
-# 3. Release component
-cd ../embeddenator-vsa
-git add src/similarity.rs
-git commit -m "Fix cosine similarity precision loss"
-git tag -a v0.1.1 -m "v0.1.1: Precision fix"
-git push origin main --tags
-
-# 4. Update core to use new tag
-cd ../embeddenator
-
-# Remove patch
-sed -i '/\[patch.crates-io\]/,/^$/d' Cargo.toml
-
-# Update dependency
-vim Cargo.toml  # Change embeddenator-vsa tag = "v0.1.1"
-cargo update -p embeddenator-vsa
-
-# Test with git tag
-cargo test --all
-
-# Commit core update
-git commit -am "Update embeddenator-vsa to v0.1.1"
-git push origin main
+# Commit and push
+git add .
+git commit -m "Add new CLI command"
+git push origin feat/new-cli-command
 ```
 
-### Workflow 2: Cross-Component Feature
+### Workflow 2: Cross-Repository Feature Development
 
-**Scenario:** Add new query algorithm affecting vsa, io, and retrieval.
+**Scenario:** Add new query algorithm affecting external component library (embeddenator-vsa) and the core workspace.
 
 ```bash
-# 1. Branch all affected repos
+# 1. Set up workspace directory if not already done
 cd ~/embeddenator-workspace
-for repo in embeddenator-vsa embeddenator-io embeddenator-retrieval embeddenator; do
-  (cd "$repo" && git checkout -b feat/semantic-search)
-done
 
-# 2. Enable local paths in core
-cd embeddenator
+# 2. Clone component library if needed
+git clone https://github.com/tzervas/embeddenator-vsa.git
+
+# 3. Branch both repos
+cd embeddenator-core
+git checkout -b feat/semantic-search
+
+cd ../embeddenator-vsa
+git checkout -b feat/semantic-search
+
+# 4. Enable local paths in embeddenator-core
+cd ../embeddenator-core
 cat >> Cargo.toml <<'EOF'
 
 [patch.crates-io]
 embeddenator-vsa = { path = "../embeddenator-vsa" }
-embeddenator-io = { path = "../embeddenator-io" }
-embeddenator-retrieval = { path = "../embeddenator-retrieval" }
 EOF
 
-# 3. Develop iteratively
+# 5. Develop iteratively
 cd ../embeddenator-vsa
 # Add semantic distance metric
 vim src/similarity.rs
 cargo test
 
-cd ../embeddenator-io
-# Add metadata for semantic queries
-vim src/manifest.rs
-cargo test
+cd ../embeddenator-core
+# Use the new feature
+vim crates/embeddenator/src/core/query.rs
+cargo test --workspace
 
-cd ../embeddenator-retrieval
-# Implement semantic search
-vim src/semantic.rs
-cargo test
-
-cd ../embeddenator
-# Wire up CLI interface
-vim src/cli/query.rs
-cargo test --all
-
-# 4. Pre-release validation (remove patches, test with tags)
-cd ~/embeddenator-workspace/embeddenator
+# 6. Pre-release validation (remove patches, test with tags)
+cd ~/embeddenator-workspace/embeddenator-core
 sed -i '/\[patch.crates-io\]/,/^$/d' Cargo.toml
 
-# This will FAIL because new versions aren't tagged yet - that's expected!
+# This will FAIL because new version isn't tagged yet - that's expected!
 cargo build 2>&1 | grep "error"
 
-# 5. Release in dependency order
+# 7. Release in dependency order
 cd ../embeddenator-vsa
 git push origin feat/semantic-search
 # Create PR, merge to main
 git checkout main && git pull
-git tag -a v0.2.0 -m "v0.2.0: Semantic distance metric"
+git tag -a v0.1.1 -m "v0.1.1: Semantic distance metric"
 git push origin --tags
 
-cd ../embeddenator-io
-# Update vsa dependency to v0.2.0
-vim Cargo.toml
+# 8. Update embeddenator-core to use new tag
+cd ../embeddenator-core
+# Update vsa dependency to v0.1.1 in crates/embeddenator/Cargo.toml
+vim crates/embeddenator/Cargo.toml
 cargo update -p embeddenator-vsa
-git commit -am "Update embeddenator-vsa to v0.2.0"
-git push origin feat/semantic-search
-# Create PR, merge to main
-git checkout main && git pull
-git tag -a v0.2.0 -m "v0.2.0: Semantic metadata"
-git push origin --tags
+cargo test --workspace
 
-cd ../embeddenator-retrieval
-# Update dependencies to v0.2.0
-vim Cargo.toml
-cargo update -p embeddenator-vsa -p embeddenator-io
-git commit -am "Update dependencies to v0.2.0"
-git push origin feat/semantic-search
-# Create PR, merge to main
-git checkout main && git pull
-git tag -a v0.2.0 -m "v0.2.0: Semantic search engine"
-git push origin --tags
-
-cd ../embeddenator
-# Update all dependencies to v0.2.0
-vim Cargo.toml
-cargo update
-cargo test --all
-git commit -am "Add semantic search (vsa v0.2.0, io v0.2.0, retrieval v0.2.0)"
+# Commit and push
+git commit -am "Add semantic search (vsa v0.1.1)"
 git push origin feat/semantic-search
 # Create PR, merge to main
 ```

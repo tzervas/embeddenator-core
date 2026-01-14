@@ -1,8 +1,11 @@
-# Project Status - Embeddenator
+# Project Status - Embeddenator Core
 
 **Version:** 0.20.0-alpha  
-**Last Updated:** January 10, 2026  
+**Last Updated:** January 14, 2026  
 **License:** MIT  
+**Repository:** https://github.com/tzervas/embeddenator-core
+
+> **Note:** This repository (`embeddenator-core`) implements the decomposed component crate architecture with a Cargo workspace that depends on modular external component libraries.  
 
 ## Development Phase
 
@@ -63,7 +66,7 @@ This project is in active development. APIs are unstable and subject to change. 
 - **Test coverage**: 8 CLI integration tests
 
 ### Infrastructure ✅
-- **Component architecture** - 6 modular library crates
+- **Component architecture** - Workspace with 2 local crates + 6 external component libraries
 - **Comprehensive testing** - 160+ tests, 97.6% pass rate
 - **Documentation** - Rustdoc comments, examples
 - **CI foundation** - Test automation framework
@@ -249,8 +252,8 @@ Full license text available in the LICENSE file.
 ## Contact
 
 - **Author**: Tyler Zervas <tz-dev@vectorweight.com>
-- **Repository**: https://github.com/tzervas/embeddenator
-- **Issues**: https://github.com/tzervas/embeddenator/issues
+- **Repository**: https://github.com/tzervas/embeddenator-core
+- **Issues**: https://github.com/tzervas/embeddenator-core/issues
 
 ## Acknowledgments
 

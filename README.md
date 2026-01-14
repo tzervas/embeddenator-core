@@ -1,4 +1,4 @@
-# Embeddenator — Holographic Computing Substrate
+# Embeddenator Core — Holographic Computing Substrate
 
 > **⚠️ EARLY DEVELOPMENT:** This project is in active development (v0.20.0-alpha). APIs are unstable and subject to change. Not recommended for production use.
 
@@ -6,13 +6,21 @@
 
 **Author:** Tyler Zervas <tz-dev@vectorweight.com>  
 **License:** MIT (see [LICENSE](LICENSE) file)  
+**Repository:** https://github.com/tzervas/embeddenator-core
 
-[![CI](https://github.com/tzervas/embeddenator/workflows/CI/badge.svg)](https://github.com/tzervas/embeddenator/actions)
+[![CI](https://github.com/tzervas/embeddenator-core/workflows/CI/badge.svg)](https://github.com/tzervas/embeddenator-core/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+> **Note:** This repository implements the decomposed component crate architecture for the Embeddenator project, with core functionality and CLI in a Cargo workspace that depends on modular component libraries.
 
 ## Component Architecture
 
-Embeddenator has been refactored into a **modular component architecture** with 6 independent library crates:
+This repository (`embeddenator-core`) implements a **decomposed component crate architecture** with a Cargo workspace containing:
+
+- **Core crate** (`crates/embeddenator`) - Main library and CLI binary
+- **CLI crate** (`crates/embeddenator-cli`) - Command-line interface library
+
+These workspace crates depend on 6 external modular component libraries:
 
 - **[embeddenator-vsa](https://github.com/tzervas/embeddenator-vsa)** - Sparse ternary VSA primitives
 - **[embeddenator-io](https://github.com/tzervas/embeddenator-io)** - Codebook, manifest, engram I/O
@@ -23,7 +31,7 @@ Embeddenator has been refactored into a **modular component architecture** with 
 
 **📚 Documentation:** [Component Architecture](docs/COMPONENT_ARCHITECTURE.md) | [Local Development](docs/LOCAL_DEVELOPMENT.md) | [Versioning](docs/VERSIONING.md)
 
-**🐳 Docker:** Multi-arch images available at `ghcr.io/tzervas/embeddenator` ([amd64](https://github.com/tzervas/embeddenator/pkgs/container/embeddenator) + arm64)
+**🐳 Docker:** Multi-arch images available at `ghcr.io/tzervas/embeddenator-core` (planned)
 
 ## Current Capabilities
 
@@ -106,14 +114,13 @@ See [ADR-007](docs/adr/ADR-007-codebook-security.md) for details on the encoding
 
 ```bash
 # Clone the repository
-git clone https://github.com/tzervas/embeddenator.git
-cd embeddenator
+git clone https://github.com/tzervas/embeddenator-core.git
+cd embeddenator-core
 
-# Build with Cargo
+# Build with Cargo (workspace build)
 cargo build --release
 
-# Or use the orchestrator
-python3 orchestrator.py --mode build --verbose
+# The binary will be at: target/release/embeddenator
 ```
 
 ### Basic Usage
@@ -131,23 +138,23 @@ cargo run --release -- query -e root.engram -q ./test_file.txt -v
 
 ### Using the Orchestrator
 
-The orchestrator provides unified build, test, and deployment workflows:
+> **Note:** The orchestrator scripts are being migrated to work with the new workspace structure. Basic cargo commands are recommended for now.
+
+Build and test the workspace:
 
 ```bash
-# Quick start: build, test, and package everything
-python3 orchestrator.py --mode full --verbose -i
+# Build all workspace members
+cargo build --release
 
-# Run integration tests
-python3 orchestrator.py --mode test --verbose
+# Run all tests
+cargo test --workspace
 
-# Build Docker image
-python3 orchestrator.py --mode package --verbose
+# Build specific crate
+cargo build -p embeddenator --release
+cargo build -p embeddenator-cli --release
 
-# Display system info
-python3 orchestrator.py --mode info
-
-# Clean all artifacts
-python3 orchestrator.py --mode clean
+# Run the CLI
+./target/release/embeddenator --help
 ```
 
 ## CLI Reference
@@ -659,44 +666,32 @@ See `.github/workflows/README.md` for complete CI/CD documentation and ARM64 set
 ### Project Structure
 
 ```
-embeddenator/
-├── Cargo.toml                  # Rust dependencies
-├── src/
-│   └── main.rs                 # Complete implementation
-├── tests/
-│   ├── e2e_regression.rs       # 6 E2E tests (includes critical engram modification test)
-│   ├── integration_cli.rs      # 7 integration tests
-│   └── unit_tests.rs           # 11 unit tests
-├── Dockerfile.tool             # Static binary packaging
-├── Dockerfile.holographic      # Holographic OS container
-├── orchestrator.py             # Unified build/test/deploy
-├── runner_manager.py           # Self-hosted runner automation entry point (NEW)
-├── runner_automation/          # Runner automation package (NEW)
-│   ├── __init__.py            # Package initialization (v1.1.0)
-│   ├── config.py              # Configuration management
-│   ├── github_api.py          # GitHub API client
-│   ├── installer.py           # Runner installation
-│   ├── runner.py              # Individual runner lifecycle
-│   ├── manager.py             # Multi-runner orchestration
-│   ├── emulation.py           # QEMU emulation for cross-arch (NEW)
-│   ├── cli.py                 # Command-line interface
-│   └── README.md              # Package documentation
-├── .env.example                # Runner configuration template (NEW)
-├── ci_build_monitor.sh         # CI hang detection and monitoring
-├── generate_docs.sh            # Documentation generation
-├── .github/
-│   └── workflows/
-│       ├── ci-pre-checks.yml       # Pre-build validation (every PR)
-│       ├── ci-amd64.yml            # AMD64 build (required for merge)
-│       ├── ci-arm64.yml            # ARM64 build (self-hosted, pending)
-│       ├── build-holographic-os.yml# OS container builds
-│       ├── build-push-images.yml   # Multi-OS image pipeline
-│       ├── nightly-builds.yml      # Nightly bleeding-edge builds
-│       └── README.md               # Complete CI/CD documentation
-├── input_ws/                   # Example input (gitignored)
-├── workspace/                  # Build artifacts (gitignored)
-└── README.md               # This file
+embeddenator-core/
+├── Cargo.toml                      # Workspace root
+├── crates/
+│   ├── embeddenator/               # Core library and binary
+│   │   ├── Cargo.toml             # Depends on component libraries
+│   │   ├── src/
+│   │   │   ├── lib.rs             # Core library
+│   │   │   └── main.rs            # CLI binary
+│   │   ├── benches/               # Performance benchmarks
+│   │   └── tests/                 # Integration tests
+│   └── embeddenator-cli/          # CLI library crate
+│       ├── Cargo.toml
+│       └── src/
+├── docs/                          # Documentation
+├── examples/                      # Usage examples
+├── scripts/                       # Build and utility scripts
+└── tests/                        # Workspace-level tests
 ```
+
+**External component dependencies** (via git tags):
+- `embeddenator-vsa` (v0.1.0)
+- `embeddenator-io` (v0.1.1)
+- `embeddenator-retrieval` (v0.1.3)
+- `embeddenator-fs` (v0.1.2)
+- `embeddenator-interop` (v0.1.1)
+- `embeddenator-obs` (v0.1.1)
 
 ### Contributing
 
@@ -707,8 +702,8 @@ We welcome contributions to Embeddenator! Here's how you can help:
 1. **Fork the repository** on GitHub
 2. **Clone your fork** locally:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/embeddenator.git
-   cd embeddenator
+   git clone https://github.com/YOUR_USERNAME/embeddenator-core.git
+   cd embeddenator-core
    ```
 3. **Create a feature branch**:
    ```bash
@@ -724,14 +719,14 @@ We welcome contributions to Embeddenator! Here's how you can help:
    - End-to-end tests in `tests/e2e_*.rs`
 3. **Run the full test suite**:
    ```bash
-   # Run all Rust tests
-   cargo test
+   # Run all workspace tests
+   cargo test --workspace
    
-   # Run integration tests via orchestrator
-   python3 orchestrator.py --mode test --verbose
+   # Run tests for specific crate
+   cargo test -p embeddenator
    
-   # Run full validation suite
-   python3 orchestrator.py --mode full --verbose
+   # Run all tests including doc tests
+   cargo test --workspace --all-targets --doc
    ```
 4. **Check code quality**:
    ```bash
@@ -746,11 +741,12 @@ We welcome contributions to Embeddenator! Here's how you can help:
    ```
 5. **Test cross-platform** (if applicable):
    ```bash
-   # Build Docker images
-   docker build -f Dockerfile.tool -t embeddenator-tool:test .
+   # Build for different targets
+   cargo build --target x86_64-unknown-linux-gnu
+   cargo build --target aarch64-unknown-linux-gnu
    
-   # Test on different architectures
-   python3 orchestrator.py --platform linux/arm64 --mode test
+   # Run tests in release mode
+   cargo test --workspace --release
    ```
 
 #### Pull Request Guidelines
@@ -904,9 +900,9 @@ MIT License - see LICENSE file for details
 ### Getting Help
 
 - **Documentation**: This README and built-in help (`embeddenator --help`)
-- **Issues**: Report bugs or request features at https://github.com/tzervas/embeddenator/issues
-- **Discussions**: Ask questions and share ideas at https://github.com/tzervas/embeddenator/discussions
-- **Examples**: See `examples/` directory (coming soon) for usage patterns
+- **Issues**: Report bugs or request features at https://github.com/tzervas/embeddenator-core/issues
+- **Discussions**: Ask questions and share ideas at https://github.com/tzervas/embeddenator-core/discussions
+- **Examples**: See `examples/` directory for usage patterns
 
 ### Common Questions
 

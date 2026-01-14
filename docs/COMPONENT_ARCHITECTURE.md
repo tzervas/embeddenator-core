@@ -2,130 +2,136 @@
 
 **Version:** 0.20.0  
 **Status:** Active  
-**Last Updated:** January 4, 2026
+**Last Updated:** January 14, 2026  
+**Repository:** https://github.com/tzervas/embeddenator-core
 
 ## Overview
 
-Embeddenator has been refactored into a **modular component architecture** with 6 independent library crates and 3 binary/tool crates. This architecture enables:
+The `embeddenator-core` repository implements a **decomposed component crate architecture** using a Cargo workspace. This architecture enables:
 
-- **Granular dependency management** - Use only what you need
-- **Independent versioning** - Components evolve at their own pace
-- **Parallel development** - Teams work on isolated components
+- **Granular dependency management** - Workspace crates depend on modular external component libraries
+- **Independent versioning** - External components evolve at their own pace
+- **Parallel development** - Teams can work on isolated external components
 - **Reduced build times** - Incremental compilation per component
-- **Clear API boundaries** - Explicit contracts between layers
+- **Clear API boundaries** - Explicit contracts between workspace and external libraries
 
 ## Architecture Diagram
 
 ```
-embeddenator (core orchestrator v0.20.0)
-├── embeddenator-vsa         → Sparse ternary VSA primitives
-├── embeddenator-io           → Codebook, manifest, engram I/O
-├── embeddenator-retrieval    → Query, shift-sweep, cosine similarity
-├── embeddenator-fs           → FUSE filesystem integration
-├── embeddenator-interop      → Python/FFI bindings
-└── embeddenator-obs          → Observability, metrics, logging
+embeddenator-core (this repository - Cargo workspace)
+│
+├── crates/embeddenator          → Core library and CLI binary
+│   ├── Depends on all 6 external component libraries
+│   ├── src/lib.rs              → Core library implementation
+│   ├── src/main.rs             → CLI binary
+│   ├── benches/                → Performance benchmarks
+│   └── tests/                  → Integration tests
+│
+└── crates/embeddenator-cli      → CLI library crate
+    └── Depends on: vsa, io, retrieval, fs
 
-embeddenator-testkit          → Shared testing utilities
-embeddenator-contract-bench   → Performance benchmarking
-embeddenator-workspace        → CLI wrapper for workspace operations
+External Component Libraries (via git tags):
+├── embeddenator-vsa             → Sparse ternary VSA primitives
+├── embeddenator-io              → Codebook, manifest, engram I/O
+├── embeddenator-retrieval       → Query, shift-sweep, cosine similarity
+├── embeddenator-fs              → FUSE filesystem integration
+├── embeddenator-interop         → Python/FFI bindings
+└── embeddenator-obs             → Observability, metrics, logging
 ```
 
 ## Component Repositories
 
-All components are hosted under the `tzervas` GitHub organization:
+The `embeddenator-core` workspace depends on external component libraries hosted under the `tzervas` GitHub organization:
 
 | Component | Repository | Version | Description |
 |-----------|------------|---------|-------------|
 | **embeddenator-vsa** | [tzervas/embeddenator-vsa](https://github.com/tzervas/embeddenator-vsa) | v0.1.0 | Sparse ternary vector operations (bundle, bind, permute, cosine similarity) |
-| **embeddenator-io** | [tzervas/embeddenator-io](https://github.com/tzervas/embeddenator-io) | v0.1.0 | Serialization/deserialization for codebooks, manifests, engrams |
-| **embeddenator-retrieval** | [tzervas/embeddenator-retrieval](https://github.com/tzervas/embeddenator-retrieval) | v0.1.0 | Query engine with shift-sweep search and similarity metrics |
-| **embeddenator-fs** | [tzervas/embeddenator-fs](https://github.com/tzervas/embeddenator-fs) | v0.1.0 | FUSE filesystem for mounting engrams as virtual filesystems |
-| **embeddenator-interop** | [tzervas/embeddenator-interop](https://github.com/tzervas/embeddenator-interop) | v0.1.0 | Foreign Function Interface (FFI) for Python/C integration |
-| **embeddenator-obs** | [tzervas/embeddenator-obs](https://github.com/tzervas/embeddenator-obs) | v0.1.0 | Observability, metrics collection, structured logging |
-| **embeddenator-testkit** | [tzervas/embeddenator-testkit](https://github.com/tzervas/embeddenator-testkit) | v0.1.1 | Shared test utilities, fixtures, property-based testing harnesses |
-| **embeddenator-contract-bench** | [tzervas/embeddenator-contract-bench](https://github.com/tzervas/embeddenator-contract-bench) | v0.2.1 | Performance benchmarking suite with contract validation |
+| **embeddenator-io** | [tzervas/embeddenator-io](https://github.com/tzervas/embeddenator-io) | v0.1.1 | Serialization/deserialization for codebooks, manifests, engrams |
+| **embeddenator-retrieval** | [tzervas/embeddenator-retrieval](https://github.com/tzervas/embeddenator-retrieval) | v0.1.3 | Query engine with shift-sweep search and similarity metrics |
+| **embeddenator-fs** | [tzervas/embeddenator-fs](https://github.com/tzervas/embeddenator-fs) | v0.1.2 | FUSE filesystem for mounting engrams as virtual filesystems |
+| **embeddenator-interop** | [tzervas/embeddenator-interop](https://github.com/tzervas/embeddenator-interop) | v0.1.1 | Foreign Function Interface (FFI) for Python/C integration |
+| **embeddenator-obs** | [tzervas/embeddenator-obs](https://github.com/tzervas/embeddenator-obs) | v0.1.1 | Observability, metrics collection, structured logging |
 
 ## Dependency Graph
 
 ```
-embeddenator (core)
-├── embeddenator-vsa (no deps)
-├── embeddenator-io
-│   └── embeddenator-vsa
-├── embeddenator-retrieval
-│   ├── embeddenator-vsa
-│   └── embeddenator-io
-├── embeddenator-fs
-│   ├── embeddenator-vsa
+embeddenator-core (workspace)
+│
+├── crates/embeddenator (core binary + library)
+│   ├── embeddenator-vsa (no deps)
 │   ├── embeddenator-io
-│   └── embeddenator-retrieval
-├── embeddenator-interop
-│   ├── embeddenator-vsa
-│   └── embeddenator-io
-└── embeddenator-obs (no deps)
-
-embeddenator-testkit
-├── embeddenator-vsa
-└── embeddenator-io
-
-embeddenator-contract-bench
-├── embeddenator-vsa
-├── embeddenator-io
-└── embeddenator-retrieval
+│   │   └── embeddenator-vsa
+│   ├── embeddenator-retrieval
+│   │   ├── embeddenator-vsa
+│   │   └── embeddenator-io
+│   ├── embeddenator-fs
+│   │   ├── embeddenator-vsa
+│   │   ├── embeddenator-io
+│   │   └── embeddenator-retrieval
+│   ├── embeddenator-interop
+│   │   ├── embeddenator-vsa
+│   │   └── embeddenator-io
+│   └── embeddenator-obs (no deps)
+│
+└── crates/embeddenator-cli
+    ├── embeddenator-vsa
+    ├── embeddenator-io
+    ├── embeddenator-retrieval
+    └── embeddenator-fs
 ```
 
 ## Using Components
 
-### As Git Dependencies (Production)
+### In embeddenator-core Workspace
 
-Components are consumed via **git tags** for stable releases:
+The workspace crates in `embeddenator-core` depend on external components via **git tags**:
 
 ```toml
+# crates/embeddenator/Cargo.toml
 [dependencies]
 embeddenator-vsa = { git = "https://github.com/tzervas/embeddenator-vsa", tag = "v0.1.0" }
-embeddenator-io = { git = "https://github.com/tzervas/embeddenator-io", tag = "v0.1.0" }
+embeddenator-io = { git = "https://github.com/tzervas/embeddenator-io", tag = "v0.1.1" }
+embeddenator-retrieval = { git = "https://github.com/tzervas/embeddenator-retrieval", tag = "v0.1.3" }
+# ... etc
 ```
 
-### As Path Dependencies (Local Development)
+### For Local Development
 
-For **local development** with multiple components, use `[patch.crates-io]`:
+When developing across workspace and external components, use `[patch.crates-io]`:
 
 ```toml
-# In embeddenator/Cargo.toml (or workspace root)
+# In embeddenator-core/Cargo.toml (workspace root)
 [patch.crates-io]
 embeddenator-vsa = { path = "../embeddenator-vsa" }
 embeddenator-io = { path = "../embeddenator-io" }
 embeddenator-retrieval = { path = "../embeddenator-retrieval" }
-embeddenator-fs = { path = "../embeddenator-fs" }
-embeddenator-interop = { path = "../embeddenator-interop" }
-embeddenator-obs = { path = "../embeddenator-obs" }
+# ... etc for components you're modifying
 ```
 
 **Workflow:**
-1. Clone all component repos into a common parent directory:
+1. Clone `embeddenator-core` and component repos into a common parent directory:
    ```bash
    mkdir ~/embeddenator-workspace
    cd ~/embeddenator-workspace
-   git clone https://github.com/tzervas/embeddenator
+   git clone https://github.com/tzervas/embeddenator-core
    git clone https://github.com/tzervas/embeddenator-vsa
-   git clone https://github.com/tzervas/embeddenator-io
-   # ... etc for all components
+   # ... etc for components you need
    ```
 
-2. Add `[patch.crates-io]` to your `Cargo.toml` (see above)
+2. Add `[patch.crates-io]` to workspace root `Cargo.toml` (see above)
 
-3. Develop across components with instant feedback:
+3. Develop across repositories with instant feedback:
    ```bash
    cd embeddenator-vsa
    # Make changes...
-   cd ../embeddenator
-   cargo build  # Uses local path, not git tag
+   cd ../embeddenator-core
+   cargo build --workspace  # Uses local path, not git tag
    ```
 
 4. Before committing:
    - Remove or comment out `[patch.crates-io]`
    - Verify builds work with git tag dependencies
-   - Commit and push component changes first, then core
+   - Commit and tag component changes first, then update workspace
 
 See [LOCAL_DEVELOPMENT.md](LOCAL_DEVELOPMENT.md) for detailed workflows.
 
