@@ -19,3 +19,74 @@ target
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+
+# Embeddenator workspace
+workspace/
+input_ws/
+os_workspace/
+os_builds/
+
+# Engram files
+*.engram
+manifest.json
+*.manifest.json
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+runner_automation/__pycache__/
+
+# Environment and secrets
+.env
+.env.local
+
+# Runner manager
+actions-runner*/
+runner_manager.log
+runner_metrics.json
+*.runner.json
+
+# Development artifacts (keep in dev branch only)
+TASK_*.md
+QA_*.md
+UNWRAP*.md
+RWLOCK*.md
+BRANCH_CLEANUP*.md
+context*.md
+workflow_state*.json
+test.txt
+
+# Development automation (keep in dev branch only)
+orchestrator.py
+runner_manager.py
+test_runner.py
+test_runner.rs
+build_holographic_os.py
+ci_build_monitor.sh
+Dockerfile.holographic
+Dockerfile.tool
+os_config.yaml
+agentic-dev/
+runner_automation/
+.context/
+
+# Chat context snapshots (machine-friendly)
+CHAT_SNAPSHOT_*.json
+CHAT_SNAPSHOT_*.md
+
+# Temporary local test artifacts
+.tmp_e2e_dir
+
+# Benchmark sample data
+benchmark_data/
+
+# Benchmark reports / artifacts
+reports/
+
+# Benchmark data
+bench_results/
+*.embr
+
+# vscode settings
+.vscode/
