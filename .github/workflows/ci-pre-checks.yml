@@ -4,9 +4,20 @@ on:
   push:
     branches: [ main ]
   pull_request:
+  workflow_dispatch:
+    inputs:
+      debug_mode:
+        description: 'Enable debug output (RUST_BACKTRACE, RUST_LOG)'
+        type: boolean
+        default: false
 
 permissions:
   contents: read
+
+env:
+  # Debug disabled by default - enable via workflow_dispatch with debug_mode=true
+  RUST_BACKTRACE: ${{ inputs.debug_mode && '1' || '0' }}
+  RUST_LOG: ${{ inputs.debug_mode && 'debug' || '' }}
 
 jobs:
   pre-checks:
@@ -28,11 +39,22 @@ jobs:
       - name: Check code formatting
         run: cargo fmt --all -- --check
       
-      - name: Run unit tests only
-        run: cargo test --lib --bins --verbose
+      - name: Run unit tests (quiet first pass)
+        id: test_quiet
+        continue-on-error: true
+        run: |
+          cargo test --lib --bins 2>&1 | tee test-output.txt
+          echo "exit_code=${PIPESTATUS[0]}" >> $GITHUB_OUTPUT
+      
+      - name: Re-run failed unit tests with debug
+        if: steps.test_quiet.outputs.exit_code != '0'
+        env:
+          RUST_BACKTRACE: full
+          RUST_LOG: debug
+        run: cargo test --lib --bins -- --nocapture
       
       - name: Run doc tests
-        run: cargo test --doc --verbose
+        run: cargo test --doc
       
       - name: Validate Python syntax
         run: |

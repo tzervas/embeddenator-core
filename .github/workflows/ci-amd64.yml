@@ -11,12 +11,23 @@ on:
     workflows: ["CI Pre-Checks"]
     types:
       - completed
+  workflow_dispatch:
+    inputs:
+      debug_mode:
+        description: 'Enable debug output (RUST_BACKTRACE, RUST_LOG)'
+        type: boolean
+        default: false
 
 permissions:
   contents: read
   # Required for status checks
   checks: write
   statuses: write
+
+env:
+  # Debug disabled by default - enable via workflow_dispatch with debug_mode=true
+  RUST_BACKTRACE: ${{ inputs.debug_mode && '1' || '0' }}
+  RUST_LOG: ${{ inputs.debug_mode && 'debug' || '' }}
 
 jobs:
   amd64-build-test:
@@ -51,13 +62,26 @@ jobs:
         timeout-minutes: 10
         run: |
           echo "🔨 Building embeddenator for amd64"
-          cargo build --release --verbose
+          cargo build --release
       
-      - name: Run full test suite (amd64)
+      - name: Run full test suite (quiet first pass)
+        id: test_quiet
         timeout-minutes: 15
+        continue-on-error: true
         run: |
           echo "🧪 Running full test suite on amd64"
-          cargo test --verbose
+          cargo test 2>&1 | tee test-output.txt
+          echo "exit_code=${PIPESTATUS[0]}" >> $GITHUB_OUTPUT
+      
+      - name: Re-run failed tests with debug
+        if: steps.test_quiet.outputs.exit_code != '0'
+        env:
+          RUST_BACKTRACE: full
+          RUST_LOG: debug
+        run: |
+          echo "::group::Re-running failed tests with debug output"
+          cargo test -- --nocapture
+          echo "::endgroup::"
       
       - name: Run integration tests via orchestrator (amd64)
         timeout-minutes: 10
