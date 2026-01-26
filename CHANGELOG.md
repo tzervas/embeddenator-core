@@ -5,69 +5,48 @@ All notable changes to Embeddenator will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-
-### Planned for Future Releases
-- ARM64 CI validation and auto-trigger (when infrastructure available)
-- GPU runner support for VSA acceleration research
-- Optional compression (zstd/lz4)
-- FUSE mount production hardening
-- Enhanced monitoring and observability integration
-
-## [1.0.0] - 2026-01-02
-
-### 🎉 Production Release
-
-This release marks the first production-ready version of Embeddenator with complete P0 and P1 features, comprehensive testing, and production stability validation.
-
-### Added
-- **Incremental update support** (TASK-007)
-  - `add_file()`, `remove_file()`, `modify_file()` methods for engram updates
-  - Hybrid approach: VSA bundle for additions, soft-delete for removals
-  - `compact()` method for periodic garbage collection
-  - CLI `update` subcommands: `add`, `remove`, `modify`, `compact`
-  - 18 comprehensive integration tests
-  - Documentation: `ADR-014-incremental-updates.md`
-- **SIMD optimization** (TASK-009)
-  - AVX2 implementation for x86_64 platforms
-  - NEON implementation for aarch64/ARM64 platforms
-  - Feature-gated with automatic scalar fallback
-  - Stable Rust support (no nightly required)
-  - 16 dedicated SIMD tests with accuracy validation (1e-10 precision)
-  - Cross-platform validation script (`scripts/validate_simd.sh`)
-  - Documentation: `SIMD_OPTIMIZATION.md`
-- **Expanded property-based testing** (TASK-010)
-  - 28 property tests covering VSA algebraic properties
-  - 23,000+ property checks executed per test run
-  - Bundling properties: commutativity, associativity, identity
-  - Binding properties: distributivity, inverse operations
-  - Permutation properties: invertibility, composition
-  - Sparsity control and thinning validation
-  - Stress tests for large-scale operations
-  - Report: `TASK_010_PROPERTY_TESTING_REPORT.md`
-- **Performance benchmarks** (TASK-006)
-  - Hierarchical scaling benchmarks: linear O(n) confirmed (10MB in 6.18ms)
-  - Query performance benchmarks: O(log n) hierarchical advantage validated
-  - SIMD cosine similarity benchmarks
-  - TB-scale extrapolation analysis
-  - Documentation: `TASK_006_PERFORMANCE_BENCHMARKS.md`, `THROUGHPUT.md`
-- **Production stability validation**
-  - Comprehensive QA audit (`QA_AUDIT_1.0.0_READINESS.md`)
-  - Error recovery test suite (19 tests covering corrupted data, resource exhaustion, concurrent access)
-  - Critical unwrap/expect fixes in production code
-  - RwLock safety improvements in FUSE implementation
-  - Edge case coverage: unicode paths, deep hierarchies (25 levels), large files (>10MB)
-- **Architecture Decision Records**
-  - 14 ADRs documenting key architectural decisions
-  - Includes: hierarchical format, incremental updates, SIMD optimization, indexing strategies
+## [0.21.2] - 2026-01-26
 
 ### Changed
-- Improved error handling throughout codebase
-- Enhanced documentation with production deployment guidance
-- Updated CLI help text with incremental update examples
-- Refined sparsity control based on property testing results
+- **Dependencies**: Updated to latest compatible versions
+  - `rand` 0.8 -> 0.9 (breaking: some API changes, see rand 0.9 migration guide)
+  - `criterion` 0.5 -> 0.8 (benchmarking improvements)
+- **Supply Chain Security**: Documented maintained dependency ecosystem for unmaintained `paste` and `gemm` crates
+  - `qlora-paste` (v1.0.20) - maintained fork of unmaintained `paste` crate
+  - `qlora-gemm` (v0.20.0) - maintained fork of unmaintained `gemm` crate
+  - `qlora-candle-*` (v0.8.4) - maintained candle fork using the above, now published to crates.io
+- **Upstream Contribution**: PR [#3335](https://github.com/huggingface/candle/pull/3335) submitted to merge maintained gemm fork into huggingface/candle
+- Added [MAINTAINED_DEPENDENCIES.md](MAINTAINED_DEPENDENCIES.md) documenting the maintained fork ecosystem
+- Added [SECURITY.md](SECURITY.md) security policy with coordinated disclosure process
 
-### Fixed
+### Note to Users
+The maintained dependency ecosystem is now fully published to crates.io:
+- **qlora-paste**: https://crates.io/crates/qlora-paste (v1.0.20)
+- **qlora-gemm**: https://crates.io/crates/qlora-gemm (v0.20.0)
+- **qlora-candle-core**: https://crates.io/crates/qlora-candle-core (v0.8.4)
+
+The PR to merge these improvements into upstream candle is pending: https://github.com/huggingface/candle/pull/3335
+
+## [0.21.1] - 2026-01-25
+
+### Changed
+- Professionalized documentation: removed emoji, unsubstantiated claims
+- Clarified that Embeddenator is an encoding method, not a security implementation
+- Documented known limitations in README
+- Updated component versions table to reflect current crates.io publications
+
+### Removed
+- Removed "bit-perfect" claims from documentation
+- Removed cryptographic implication language
+- Removed internal planning and handoff documentation
+
+## [0.21.0] - 2026-01-25
+
+### Added
+- Published to crates.io as umbrella crate
+- Re-exports all component crates (vsa, io, obs, retrieval, fs, interop, cli)
+- Incremental update support via CLI
+- SIMD optimization for x86_64 (AVX2) and aarch64 (NEON)
 - Critical error handling issues identified in QA audit
 - RwLock poisoning vulnerabilities in FUSE implementation
 - Edge cases in hierarchical path encoding
