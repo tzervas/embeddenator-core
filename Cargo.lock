@@ -419,7 +419,7 @@ dependencies = [
 
 [[package]]
 name = "embeddenator-interop"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "bincode",
  "cbindgen",
@@ -451,7 +451,7 @@ dependencies = [
 
 [[package]]
 name = "embeddenator-retrieval"
-version = "0.20.0"
+version = "0.21.0"
 dependencies = [
  "bincode",
  "embeddenator-vsa",
