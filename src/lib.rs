@@ -62,14 +62,14 @@ pub mod cli;
 pub use embeddenator_vsa as vsa;
 pub use embeddenator_vsa::ternary;
 pub use embeddenator_vsa::ternary_vec;
-// Re-export embeddenator-retrieval types  
+// Re-export embeddenator-retrieval types
 pub use embeddenator_retrieval as retrieval;
 pub use embeddenator_retrieval::core::resonator;
 // Re-export embeddenator-fs types
 pub use embeddenator_fs as fs;
+pub use embeddenator_fs::correction;
 pub use embeddenator_fs::embrfs;
 pub use embeddenator_fs::fuse_shim;
-pub use embeddenator_fs::correction;
 // Re-export embeddenator-interop types
 pub use embeddenator_interop as interop;
 // Re-export embeddenator-io types
@@ -80,28 +80,27 @@ pub use embeddenator_obs as obs;
 pub use embeddenator_vsa::{
     BalancedTernaryWord, Codebook, CorrectionEntry, DifferentialEncoder, DifferentialEncoding,
     DimensionalConfig, HyperVec, PackedTritVec, ParityTrit, ProjectionResult, ReversibleVSAConfig,
-    SemanticOutlier, SparseVec, Trit, TritDepthConfig, Tryte, Tryte3, Word6, WordMetadata, DIM,
-    Trit as DimTrit,
+    SemanticOutlier, SparseVec, Trit, Trit as DimTrit, TritDepthConfig, Tryte, Tryte3, Word6,
+    WordMetadata, DIM,
 };
 // Retrieval types from embeddenator-retrieval component
-pub use embeddenator_retrieval::{RerankedResult, SearchResult, TernaryInvertedIndex};
 pub use embeddenator_retrieval::resonator::Resonator;
+pub use embeddenator_retrieval::{RerankedResult, SearchResult, TernaryInvertedIndex};
 // Filesystem types from embeddenator-fs component
 pub use embeddenator_fs::{
-    ChunkCorrection, CorrectionStore, CorrectionStats, CorrectionType, ReconstructionVerifier,
-    EmbrFS, Engram, FileEntry, Manifest, DEFAULT_CHUNK_SIZE,
-    DirectorySubEngramStore, HierarchicalChunkHit, HierarchicalManifest, HierarchicalQueryBounds,
-    SubEngram, SubEngramStore, UnifiedManifest, load_hierarchical_manifest,
-    query_hierarchical_codebook, query_hierarchical_codebook_with_store, save_hierarchical_manifest,
-    save_sub_engrams_dir,
-    EngramFS, EngramFSBuilder, FileAttr, FileKind,
+    load_hierarchical_manifest, query_hierarchical_codebook,
+    query_hierarchical_codebook_with_store, save_hierarchical_manifest, save_sub_engrams_dir,
+    ChunkCorrection, CorrectionStats, CorrectionStore, CorrectionType, DirectorySubEngramStore,
+    EmbrFS, Engram, EngramFS, EngramFSBuilder, FileAttr, FileEntry, FileKind, HierarchicalChunkHit,
+    HierarchicalManifest, HierarchicalQueryBounds, Manifest, ReconstructionVerifier, SubEngram,
+    SubEngramStore, UnifiedManifest, DEFAULT_CHUNK_SIZE,
 };
 // Interop types from embeddenator-interop component
 pub use embeddenator_interop::{
-    CandidateGenerator, KernelInteropError, SparseVecBackend, VectorStore, VsaBackend,
-    rerank_top_k_by_cosine,
+    rerank_top_k_by_cosine, CandidateGenerator, KernelInteropError, SparseVecBackend, VectorStore,
+    VsaBackend,
 };
 // I/O types from embeddenator-io component
 pub use embeddenator_io::{
-    BinaryWriteOptions, CompressionCodec, PayloadKind, unwrap_auto, wrap_or_legacy,
+    unwrap_auto, wrap_or_legacy, BinaryWriteOptions, CompressionCodec, PayloadKind,
 };
