@@ -29,7 +29,7 @@ We implemented a Multi-Agent Workflow System with the following components:
 
 ### 1. Task Registry (TASK_REGISTRY.md)
 - Central task tracking with structured format
-- Status tracking: 🔵 PENDING → 🟡 IN_PROGRESS → 🟢 REVIEW → ✅ APPROVED → 🚀 INTEGRATED
+- Status tracking: 🔵 PENDING → 🟡 IN_PROGRESS → 🟢 REVIEW →  APPROVED →  INTEGRATED
 - Priority levels: P0 (Critical) → P3 (Low)
 - Complexity estimates: XS (1-4h) → XL (5+ days)
 - Clear dependencies and acceptance criteria

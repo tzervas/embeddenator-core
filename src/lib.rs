@@ -3,17 +3,20 @@
 //! Copyright (c) 2025 Embeddenator Contributors
 //! Licensed under MIT License
 //!
-//! Production Rust implementation of sparse ternary VSA (Vector Symbolic
-//! Architecture) holographic filesystem and computing substrate.
+//! Rust implementation of sparse ternary VSA (Vector Symbolic Architecture)
+//! for holographic data encoding.
+//!
+//! Embeddenator is an encoding method and data model. It is not a security
+//! implementation.
 //!
 //! # Overview
 //!
-//! Embeddenator encodes entire filesystems into holographic "engrams" using
+//! Embeddenator encodes filesystems into holographic "engrams" using
 //! sparse ternary vectors, enabling:
-//! - 100% bit-perfect reconstruction of all files
+//! - Reconstruction of files from encoded engrams
 //! - Holographic superposition of multiple data sources
 //! - Algebraic operations (bundle, bind) on encoded data
-//! - Hierarchical chunked encoding for TB-scale datasets
+//! - Hierarchical chunked encoding for larger datasets
 //!
 //! # Quick Start
 //!
@@ -39,15 +42,15 @@
 //!
 //! The foundation of Embeddenator is VSA with three key operations:
 //!
-//! - **Bundle (⊕)**: Associative superposition - combine multiple vectors
-//! - **Bind (⊙)**: Non-commutative composition - encode associations
-//! - **Cosine Similarity**: Retrieve similar patterns (>0.75 strong match)
+//! - **Bundle**: Associative superposition - combine multiple vectors
+//! - **Bind**: Non-commutative composition - encode associations
+//! - **Cosine Similarity**: Retrieve similar patterns
 //!
 //! ## Engrams
 //!
 //! An engram is a holographic encoding containing:
 //! - Root vector: superposition of all data chunks
-//! - Codebook: mapping of chunk IDs to original data
+//! - Codebook: mapping of chunk IDs to encoded data
 //! - Manifest: file structure and metadata
 //!
 //! # Modules

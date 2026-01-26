@@ -100,13 +100,13 @@ Cargo will:
 
 ### When to Use [patch.crates-io]
 
-✅ **Use when:**
+ **Use when:**
 - Developing features spanning multiple components
 - Debugging cross-component issues
 - Testing API changes before releasing
 - Rapid iteration with immediate feedback
 
-❌ **Don't use when:**
+ **Don't use when:**
 - Preparing for release (must test with git tags)
 - Code review (reviewers need reproducible builds)
 - CI/CD pipelines (patches break reproducibility)
@@ -584,7 +584,7 @@ for comp in "${COMPONENTS[@]}"; do
     git pull --tags
     cargo update
   ) || {
-    echo "⚠️  Failed to update $comp (skipping)"
+    echo "  Failed to update $comp (skipping)"
   }
 done
 

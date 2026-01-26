@@ -30,7 +30,7 @@ crates/embeddenator-cli/
 
 ## Functionality Preserved
 
-### ✅ Fully Implemented
+###  Fully Implemented
 - **Ingest**: Complete implementation with multi-input support and namespace handling
 - **Extract**: Bit-perfect reconstruction from engrams  
 - **Query**: Similarity search with bucket sweep and hierarchical support
@@ -38,7 +38,7 @@ crates/embeddenator-cli/
 - **BundleHier**: Hierarchical artifact generation
 - **Mount**: FUSE filesystem interface (requires `fuse` feature)
 
-### ⚠️ Stub Implementations (Requires embeddenator-fs updates)
+###  Stub Implementations (Requires embeddenator-fs updates)
 - **Update Add**: Incremental file addition - returns error message
 - **Update Remove**: File removal - returns error message  
 - **Update Modify**: File modification - returns error message
@@ -88,7 +88,7 @@ All command handlers follow consistent error handling:
 
 ## Compilation Status
 
-✅ **SUCCESS** - All code compiles without errors or warnings
+ **SUCCESS** - All code compiles without errors or warnings
 
 ```bash
 cargo check

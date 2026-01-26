@@ -75,19 +75,19 @@ We implemented **deterministic hierarchical artifact generation** throughout the
 
 ### Positive
 
-- ✅ **Reproducible Builds**: Identical inputs produce byte-for-byte identical artifacts across runs and machines.
-- ✅ **Regression Testing**: Enables exact manifest comparison in `tests/hierarchical_determinism.rs` and `tests/hierarchical_artifacts_e2e.rs`.
-- ✅ **Git-Friendly**: Manifests have stable diffs; only meaningful changes appear in version control.
-- ✅ **CI/CD Foundation**: Automated validation can rely on deterministic artifact hashes and content comparison.
-- ✅ **Debugging**: Deterministic behavior simplifies debugging and trace comparison between runs.
-- ✅ **Semantic Consistency**: Sorting aligns with the associative bundling semantics from ADR-008.
+-  **Reproducible Builds**: Identical inputs produce byte-for-byte identical artifacts across runs and machines.
+-  **Regression Testing**: Enables exact manifest comparison in `tests/hierarchical_determinism.rs` and `tests/hierarchical_artifacts_e2e.rs`.
+-  **Git-Friendly**: Manifests have stable diffs; only meaningful changes appear in version control.
+-  **CI/CD Foundation**: Automated validation can rely on deterministic artifact hashes and content comparison.
+-  **Debugging**: Deterministic behavior simplifies debugging and trace comparison between runs.
+-  **Semantic Consistency**: Sorting aligns with the associative bundling semantics from ADR-008.
 
 ### Negative
 
-- ⚠️ **Performance Cost**: Sorting adds $O(N \log N)$ overhead for $N$ files/prefixes.
+-  **Performance Cost**: Sorting adds $O(N \log N)$ overhead for $N$ files/prefixes.
   - **Mitigation**: In practice, negligible; most directory trees have hundreds to thousands of entries, not millions.
   - **Measured Impact**: <1% overhead in typical hierarchical bundling benchmarks.
-- ⚠️ **Code Complexity**: Requires careful insertion of `.collect()` + `.sort()` steps throughout the pipeline.
+-  **Code Complexity**: Requires careful insertion of `.collect()` + `.sort()` steps throughout the pipeline.
   - **Mitigation**: Centralized in `bundle_hierarchically`; well-tested by regression suite.
 
 ### Neutral

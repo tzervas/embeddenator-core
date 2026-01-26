@@ -17,12 +17,12 @@ This guide covers the comprehensive automation system for managing GitHub Action
 
 The `runner_manager.py` script provides complete lifecycle automation for GitHub Actions self-hosted runners:
 
-- ✨ **Automated Registration**: Uses short-lived tokens for secure registration
-- 🔄 **Complete Lifecycle Management**: Register → Run → Monitor → Deregister
-- ⏱️ **Auto-Deregistration**: Configurable idle timeout for cost optimization
-- 🎯 **Manual Mode**: Keep runners alive until explicitly stopped
-- 🚀 **Multi-Runner Support**: Deploy multiple runners with different configurations
-- 📊 **Health Monitoring**: Track runner status and job queue
+-  **Automated Registration**: Uses short-lived tokens for secure registration
+-  **Complete Lifecycle Management**: Register → Run → Monitor → Deregister
+-  **Auto-Deregistration**: Configurable idle timeout for cost optimization
+-  **Manual Mode**: Keep runners alive until explicitly stopped
+-  **Multi-Runner Support**: Deploy multiple runners with different configurations
+-  **Health Monitoring**: Track runner status and job queue
 - 🧹 **Automatic Cleanup**: Clean up Docker resources and installations
 - ⚙️ **Flexible Configuration**: Configure via .env file or CLI arguments
 

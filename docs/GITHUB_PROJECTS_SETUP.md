@@ -35,10 +35,10 @@ gh project create \
 ### 3. Configure Project Board
 
 **Columns:**
-- 📋 **Backlog** - Not started
+-  **Backlog** - Not started
 - ⏳ **In Progress** - Active work
-- 🔍 **Review** - Ready for integration testing
-- ✅ **Complete** - Released and documented
+-  **Review** - Ready for integration testing
+-  **Complete** - Released and documented
 
 ### 4. Link Issues to Project
 
@@ -73,22 +73,22 @@ For issues #18, #19, #20, #21 (already closed).
 
 | Component | Issue | Status | Column | Notes |
 |-----------|-------|--------|--------|-------|
-| embeddenator-vsa | #18 | ✅ Closed | Complete | v0.2.0 released |
-| embeddenator-retrieval | #19 | ✅ Closed | Complete | v0.2.0 released |
-| embeddenator-fs | #20 | ✅ Closed | Complete | v0.2.0 released |
-| embeddenator-interop | #21 | ✅ Closed | Complete | v0.2.0 released |
+| embeddenator-vsa | #18 |  Closed | Complete | v0.2.0 released |
+| embeddenator-retrieval | #19 |  Closed | Complete | v0.2.0 released |
+| embeddenator-fs | #20 |  Closed | Complete | v0.2.0 released |
+| embeddenator-interop | #21 |  Closed | Complete | v0.2.0 released |
 | embeddenator-io | #22 | ⏳ Open | Backlog | Next - independent |
 | embeddenator-obs | #23 | ⏹️ Open | Backlog | Ready - independent |
-| **Epic Tracker** | #24 | 📊 Open | - | 66.7% complete |
+| **Epic Tracker** | #24 |  Open | - | 66.7% complete |
 
 ### Branch Tracking
 
 | Branch | Component | Status | Last Commit |
 |--------|-----------|--------|-------------|
-| feat/extract-vsa | embeddenator-vsa | ✅ Merged | Tagged v0.2.0 |
-| feat/extract-retrieval | embeddenator-retrieval | ✅ Merged | Tagged v0.2.0 |
-| feat/extract-fs | embeddenator-fs | ✅ Merged | Tagged v0.2.0 |
-| feat/extract-interop | embeddenator-interop | ✅ Current | fe85433 - tracking update |
+| feat/extract-vsa | embeddenator-vsa |  Merged | Tagged v0.2.0 |
+| feat/extract-retrieval | embeddenator-retrieval |  Merged | Tagged v0.2.0 |
+| feat/extract-fs | embeddenator-fs |  Merged | Tagged v0.2.0 |
+| feat/extract-interop | embeddenator-interop |  Current | fe85433 - tracking update |
 | feat/extract-io | embeddenator-io | ⏹️ Pending | Not yet created |
 | feat/extract-obs | embeddenator-obs | ⏹️ Pending | Not yet created |
 

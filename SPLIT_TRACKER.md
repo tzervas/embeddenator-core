@@ -16,25 +16,25 @@ The Embeddenator project is undergoing systematic decomposition from a monolithi
 - Clearer dependency boundaries
 
 **Phases:**
-1. ✅ **Phase 1** - Repository setup, ADRs, CI foundation (Complete)
-2. ✅ **Phase 2A** - Core component extraction (100% complete)
-3. ✅ **Phase 2B** - CLI extraction (100% complete)
+1.  **Phase 1** - Repository setup, ADRs, CI foundation (Complete)
+2.  **Phase 2A** - Core component extraction (100% complete)
+3.  **Phase 2B** - CLI extraction (100% complete)
 4. ⏳ **Phase 3** - Integration, publishing & cleanup (Ready to begin)
 
 ---
 
-## Phase 1: Foundation ✅ COMPLETE
+## Phase 1: Foundation  COMPLETE
 
 **Timeline:** Dec 2025  
 **Status:** Complete
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Create sister repositories (14 repos) | ✅ | All at ~/Documents/projects/embeddenator/ |
-| Document architecture (ADRs) | ✅ | ADR-001 through ADR-017 |
-| Set up CI/CD | ✅ | Self-hosted runners |
-| Stabilize sister projects | ✅ | All 14 repos build successfully |
-| Fix embeddenator-contract-bench | ✅ | Corrected v0.20.0 → path dep |
+| Create sister repositories (14 repos) |  | All at ~/Documents/projects/embeddenator/ |
+| Document architecture (ADRs) |  | ADR-001 through ADR-017 |
+| Set up CI/CD |  | Self-hosted runners |
+| Stabilize sister projects |  | All 14 repos build successfully |
+| Fix embeddenator-contract-bench |  | Corrected v0.20.0 → path dep |
 
 **Deliverables:**
 - 14 sister repositories initialized
@@ -47,19 +47,19 @@ The Embeddenator project is undergoing systematic decomposition from a monolithi
 ## Phase 2A: Core Component Extraction ⏳ IN PROGRESS
 
 **Timeline:** Jan 1-28, 2026 (4 weeks)  
-**Status:** 6/6 components complete (100%) ✅ **COMPLETE**  
+**Status:** 6/6 components complete (100%)  **COMPLETE**  
 **Epic Issue:** [#24](https://github.com/tzervas/embeddenator/issues/24)
 
 ### Progress Table
 
 | # | Component | Issue | Depends On | LOC | Status | Release | Notes |
 |---|-----------|-------|------------|-----|--------|---------|-------|
-| 1 | embeddenator-vsa | [#18](https://github.com/tzervas/embeddenator/issues/18) | - | ~4,252 | ✅ **DONE** | v0.2.0 | Security audit complete, all tests pass |
-| 2 | embeddenator-retrieval | [#19](https://github.com/tzervas/embeddenator/issues/19) | vsa | ~578 | ✅ **DONE** | v0.2.0 | No unsafe code, signature.rs deferred |
-| 3 | embeddenator-fs | [#20](https://github.com/tzervas/embeddenator/issues/20) | vsa, retrieval | ~3,675 | ✅ **DONE** | v0.2.0 | 2 safe unsafe blocks (POSIX) |
-| 4 | embeddenator-interop | [#21](https://github.com/tzervas/embeddenator/issues/21) | vsa, fs | ~159 | ✅ **DONE** | v0.2.0 | No unsafe code, trait-based abstractions |
-| 5 | embeddenator-io | [#22](https://github.com/tzervas/embeddenator/issues/22) | - | ~166 | ✅ **DONE** | v0.2.0 | No unsafe code, 11 tests, compression codecs |
-| 6 | embeddenator-obs | [#23](https://github.com/tzervas/embeddenator/issues/23) | - | ~953 | ✅ **DONE** | v0.2.0 | 2 safe unsafe blocks (TSC), metrics/logging/timing |
+| 1 | embeddenator-vsa | [#18](https://github.com/tzervas/embeddenator/issues/18) | - | ~4,252 |  **DONE** | v0.2.0 | Security audit complete, all tests pass |
+| 2 | embeddenator-retrieval | [#19](https://github.com/tzervas/embeddenator/issues/19) | vsa | ~578 |  **DONE** | v0.2.0 | No unsafe code, signature.rs deferred |
+| 3 | embeddenator-fs | [#20](https://github.com/tzervas/embeddenator/issues/20) | vsa, retrieval | ~3,675 |  **DONE** | v0.2.0 | 2 safe unsafe blocks (POSIX) |
+| 4 | embeddenator-interop | [#21](https://github.com/tzervas/embeddenator/issues/21) | vsa, fs | ~159 |  **DONE** | v0.2.0 | No unsafe code, trait-based abstractions |
+| 5 | embeddenator-io | [#22](https://github.com/tzervas/embeddenator/issues/22) | - | ~166 |  **DONE** | v0.2.0 | No unsafe code, 11 tests, compression codecs |
+| 6 | embeddenator-obs | [#23](https://github.com/tzervas/embeddenator/issues/23) | - | ~953 |  **DONE** | v0.2.0 | 2 safe unsafe blocks (TSC), metrics/logging/timing |
 
 **Total LOC to extract:** ~9,783  
 **Extracted:** ~9,783 (100% - Phase 2A Complete!)
@@ -67,20 +67,20 @@ The Embeddenator project is undergoing systematic decomposition from a monolithi
 ### Weekly Schedule
 
 **Week 1 (Jan 1-7):**
-- ✅ Security audit (SIMD cosine)
-- ✅ Extract embeddenator-vsa
-- ✅ Tag v0.2.0, close #18
-- ✅ Security audit (retrieval)
-- ✅ Extract embeddenator-retrieval
-- ✅ Tag v0.2.0, close #19
+-  Security audit (SIMD cosine)
+-  Extract embeddenator-vsa
+-  Tag v0.2.0, close #18
+-  Security audit (retrieval)
+-  Extract embeddenator-retrieval
+-  Tag v0.2.0, close #19
 
 **Week 2 (Jan 7-14):**
-- ✅ Extract embeddenator-fs
-- ✅ Tag v0.2.0, close #20
-- ✅ Extract embeddenator-interop
-- ✅ Tag v0.2.0, close #21
-- ✅ Extract embeddenator-io
-- ✅ Tag v0.2.0, close #22
+-  Extract embeddenator-fs
+-  Tag v0.2.0, close #20
+-  Extract embeddenator-interop
+-  Tag v0.2.0, close #21
+-  Extract embeddenator-io
+-  Tag v0.2.0, close #22
 - → Extract embeddenator-obs
 
 **Week 3 (Jan 14-21):**
@@ -97,7 +97,7 @@ The Embeddenator project is undergoing systematic decomposition from a monolithi
 ### Critical Path
 
 ```
-vsa (✅) → retrieval → fs → interop
+vsa () → retrieval → fs → interop
          ↘ io (independent)
          ↘ obs (independent)
 ```
@@ -109,17 +109,17 @@ vsa (✅) → retrieval → fs → interop
 
 ---
 
-## Phase 2B: MCP Servers & CLI ✅ COMPLETE
+## Phase 2B: MCP Servers & CLI  COMPLETE
 
 **Timeline:** Jan 2026  
-**Status:** CLI extraction complete (100%) ✅  
+**Status:** CLI extraction complete (100%)   
 **Epic Issue:** Completed Jan 4, 2026
 
 ### Extraction Summary
 
 | Component | Purpose | Dependencies | LOC | Status | Version |
 |-----------|---------|--------------|-----|--------|---------|
-| embeddenator-cli | CLI interface | All Phase 2A | 1,174 | ✅ **DONE** | v0.2.0 |
+| embeddenator-cli | CLI interface | All Phase 2A | 1,174 |  **DONE** | v0.2.0 |
 
 **MCP Servers Finding:**
 The following MCP servers are **independent projects** (not extractions from monorepo):
@@ -128,7 +128,7 @@ The following MCP servers are **independent projects** (not extractions from mon
 - embeddenator-agent-mcp (v0.1.0-alpha.1) - Standalone project
 - embeddenator-webpuppet-mcp (v0.1.0-alpha.2) - Standalone project
 
-**embeddenator-cli Complete ✅**
+**embeddenator-cli Complete **
 - 1,174 LOC extracted from src/cli.rs
 - 7 main commands: Ingest, Extract, Query, QueryText, BundleHier, Mount, Update
 - 4 update subcommands: Add, Remove, Modify, Compact
@@ -137,10 +137,10 @@ The following MCP servers are **independent projects** (not extractions from mon
 - Commit: dbb630c (main repo), fa17179 (CLI repo)
 
 **Achievements:**
-- ✅ Phase 2A: 100% complete (6/6 components)
-- ✅ Phase 2B: 100% complete (CLI extracted, MCPs confirmed independent)
-- ✅ Multi-agent orchestration: Rust Implementer, QA Tester, Documentation Writer
-- ✅ All extractions maintain API surface and test coverage
+-  Phase 2A: 100% complete (6/6 components)
+-  Phase 2B: 100% complete (CLI extracted, MCPs confirmed independent)
+-  Multi-agent orchestration: Rust Implementer, QA Tester, Documentation Writer
+-  All extractions maintain API surface and test coverage
 
 ---
 
@@ -154,7 +154,7 @@ The following MCP servers are **independent projects** (not extractions from mon
 
 **Week 1: Integration & Security (Jan 4-11)**
 - [ ] Integration testing (all 7 components)
-- [x] Security audit (9 unsafe blocks across 3 files) ✅ **COMPLETE**
+- [x] Security audit (9 unsafe blocks across 3 files)  **COMPLETE**
 - [ ] Performance validation (homelab benchmarks)
 
 **Week 2: Publishing & Cleanup (Jan 11-18)**
@@ -166,12 +166,12 @@ The following MCP servers are **independent projects** (not extractions from mon
 
 ### Completion Criteria
 
-- ✅ All 7 components published to crates.io at v0.2.0
-- ✅ Integration tests passing
-- ✅ Security audit complete
-- ✅ Performance <5% regression
-- ✅ Monorepo uses published dependencies
-- ✅ All documentation updated
+-  All 7 components published to crates.io at v0.2.0
+-  Integration tests passing
+-  Security audit complete
+-  Performance <5% regression
+-  Monorepo uses published dependencies
+-  All documentation updated
 
 ---
 
@@ -180,9 +180,9 @@ The following MCP servers are **independent projects** (not extractions from mon
 ### Component Extraction Progress
 
 ```
-Phase 2A: [████████████████] 100% (6/6) ✅
-Phase 2B: [████████████████] 100% (1/1) ✅
-Phase 3: [█████░░░░░░░░░░░] 17% (1/6 tasks) 🔄
+Phase 2A: [████████████████] 100% (6/6) 
+Phase 2B: [████████████████] 100% (1/1) 
+Phase 3: [█████░░░░░░░░░░░] 17% (1/6 tasks) 
 
 Overall Extraction: [███████████████░] 100% (7/7 components)
 Overall Project: [████████████▓░░░] 79% (Phase 3: 1/6 complete)
@@ -200,14 +200,14 @@ Overall Project: [████████████▓░░░] 79% (Phase 3
 
 | Repository | Status | Tests | Issues |
 |------------|--------|-------|--------|
-| embeddenator (monorepo) | ✅ Building | ✅ 19/19 pass | 0 |
-| embeddenator-vsa | ✅ Building | ✅ Passing | 0 |
-| embeddenator-retrieval | ✅ Building | ✅ 18/18 pass | 0 |
-| embeddenator-fs | ✅ Bui✅ Building | ✅ Passing | 0 |
-| embeddenator-io | ✅ Building | ✅ 11/11 pass | 0 |
-| embeddenator-obs | ✅ Building | ✅ Passing | 0 |
-| embeddenator-cli | ✅ Building | ✅ 1 test pass | 0 |
-| embeddenator-obs | 📦 Skeleton | - | 0 |
+| embeddenator (monorepo) |  Building |  19/19 pass | 0 |
+| embeddenator-vsa |  Building |  Passing | 0 |
+| embeddenator-retrieval |  Building |  18/18 pass | 0 |
+| embeddenator-fs |  Bui Building |  Passing | 0 |
+| embeddenator-io |  Building |  11/11 pass | 0 |
+| embeddenator-obs |  Building |  Passing | 0 |
+| embeddenator-cli |  Building |  1 test pass | 0 |
+| embeddenator-obs |  Skeleton | - | 0 |
 
 ---
 
@@ -217,13 +217,13 @@ Overall Project: [████████████▓░░░] 79% (Phase 3
 
 ```
 Level 0 (foundation):
-  └─ vsa ✅
+  └─ vsa 
 
 Level 1 (depends on vsa):
-  └─ retrieval ✅
+  └─ retrieval 
 
 Level 2 (depends on retrieval):
-  └─ fs ✅
+  └─ fs 
 
 Level 3 (depends on fs):
   └─ interop
@@ -257,10 +257,10 @@ All components depend on:
 
 ### Completed Mitigations
 
-- ✅ Security audit process established
-- ✅ Feature branching strategy validated
-- ✅ Path dependency workflow proven
-- ✅ Import update patterns documented
+-  Security audit process established
+-  Feature branching strategy validated
+-  Path dependency workflow proven
+-  Import update patterns documented
 
 ---
 

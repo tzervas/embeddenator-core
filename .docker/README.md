@@ -2,7 +2,7 @@
 
 Docker images for Embeddenator CI builds and deployments.
 
-## 📦 Images
+##  Images
 
 ### `ghcr.io/tzervas/embeddenator`
 
@@ -14,7 +14,7 @@ Multi-arch container with Embeddenator binary.
 
 **Base:** Alpine Linux 3.19 (minimal footprint)
 
-## 🚀 Usage
+##  Usage
 
 ### Pull Image
 
@@ -43,7 +43,7 @@ docker run --rm -v $(pwd)/data:/data ghcr.io/tzervas/embeddenator:latest <comman
 docker run --rm -it --entrypoint /bin/sh ghcr.io/tzervas/embeddenator:latest
 ```
 
-## 🏗️ Building Locally
+##  Building Locally
 
 ### Build for Current Architecture
 
@@ -66,7 +66,7 @@ docker buildx build \
   .
 ```
 
-## 🔧 Manifest Generation
+##  Manifest Generation
 
 Generate multi-arch manifest list:
 
@@ -78,7 +78,7 @@ python .docker/generate_manifest.py --version v0.20.0
 python .docker/generate_manifest.py --version v0.20.0 --dry-run
 ```
 
-## 🔐 Security
+##  Security
 
 ### GHCR Authentication
 
@@ -97,14 +97,14 @@ docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
   aquasec/trivy image ghcr.io/tzervas/embeddenator:latest
 ```
 
-## 📋 .dockerignore
+##  .dockerignore
 
 Excludes from build context:
-- ✅ Secrets and credentials
-- ✅ Build artifacts (target/, *.embr)
-- ✅ Development files (.vscode/, docs/)
-- ✅ Large datasets
-- ✅ Git history
+-  Secrets and credentials
+-  Build artifacts (target/, *.embr)
+-  Development files (.vscode/, docs/)
+-  Large datasets
+-  Git history
 
 See [.dockerignore](.dockerignore) for full list.
 
@@ -128,7 +128,7 @@ Automated builds triggered by:
 
 See [docker-build.yml](../.github/workflows/docker-build.yml)
 
-## 📁 Directory Structure
+##  Directory Structure
 
 ```
 .docker/
@@ -138,7 +138,7 @@ See [docker-build.yml](../.github/workflows/docker-build.yml)
 └── README.md              # This file
 ```
 
-## 🔍 Image Layers
+##  Image Layers
 
 ```
 Stage 1: deps          # Cargo dependencies (cached)
@@ -164,7 +164,7 @@ docker run --rm \
   embeddenator:homelab <command>
 ```
 
-## 📝 Notes
+##  Notes
 
 - **Non-root:** Container runs as user `embr` (UID 1000)
 - **Health Check:** Validates binary with `--version`
@@ -191,7 +191,7 @@ docker logout ghcr.io
 echo $GITHUB_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
 ```
 
-## 📚 References
+##  References
 
 - [Dockerfile.embr-ci](Dockerfile.embr-ci) - Build configuration
 - [generate_manifest.py](generate_manifest.py) - Manifest script

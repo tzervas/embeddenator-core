@@ -5,7 +5,14 @@ All notable changes to Embeddenator will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.21.2] - 2026-01-26
+## [0.22.0] - 2026-01-26
+
+### Breaking Changes
+- **Package Renamed**: `embeddenator` → `embeddenator-core` on crates.io
+  - Old crate `embeddenator` will be yanked
+  - Update your `Cargo.toml`: `embeddenator = "0.21"` → `embeddenator-core = "0.22"`
+  - Rust imports unchanged: `use embeddenator::*` still works (lib name preserved)
+  - Binary still named `embeddenator`
 
 ### Changed
 - **Dependencies**: Updated to latest compatible versions
@@ -19,6 +26,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added [MAINTAINED_DEPENDENCIES.md](MAINTAINED_DEPENDENCIES.md) documenting the maintained fork ecosystem
 - Added [SECURITY.md](SECURITY.md) security policy with coordinated disclosure process
 
+### Migration Guide
+```toml
+# Before (Cargo.toml)
+[dependencies]
+embeddenator = "0.21"
+
+# After
+[dependencies]
+embeddenator-core = "0.22"
+```
+
+```rust
+// Rust code unchanged - lib name is still "embeddenator"
+use embeddenator::prelude::*;
+```
+
 ### Note to Users
 The maintained dependency ecosystem is now fully published to crates.io:
 - **qlora-paste**: https://crates.io/crates/qlora-paste (v1.0.20)
@@ -26,6 +49,12 @@ The maintained dependency ecosystem is now fully published to crates.io:
 - **qlora-candle-core**: https://crates.io/crates/qlora-candle-core (v0.8.4)
 
 The PR to merge these improvements into upstream candle is pending: https://github.com/huggingface/candle/pull/3335
+
+## [0.21.2] - 2026-01-26
+
+### Changed
+- Dependencies updated (rand 0.9, criterion 0.8)
+- Documentation updates for qlora-candle crates.io publication
 
 ## [0.21.1] - 2026-01-25
 

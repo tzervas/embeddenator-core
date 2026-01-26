@@ -40,7 +40,7 @@ The CI/CD pipeline is split into separate workflows to avoid duplication and pro
 
 **Runtime:** ~5-7 minutes
 
-**Status:** ✅ **ACTIVE** (Required status check for PR merges)
+**Status:**  **ACTIVE** (Required status check for PR merges)
 
 **Note:** This workflow is configured as a **required pre-merge check**. Pull requests cannot be merged to `main` until this workflow completes successfully. This ensures the build is not broken before code reaches the main branch.
 
@@ -63,7 +63,7 @@ The CI/CD pipeline is split into separate workflows to avoid duplication and pro
 **Runtime:** 
 - Self-hosted native: ~8-12 minutes (estimated)
 
-**Status:** ⚠️ **CONFIGURED BUT DISABLED** - Ready for self-hosted runners
+**Status:**  **CONFIGURED BUT DISABLED** - Ready for self-hosted runners
 
 **Deployment Plan:**
 1. **Phase 1** (Current): Manual testing with self-hosted runners via `workflow_dispatch`
@@ -87,11 +87,11 @@ The ARM64 workflow was hanging because:
 3. **Hanging Behavior**: Jobs queued indefinitely waiting for non-existent runners
 
 **Previous Attempts (Resolved):**
-- Commit b968753: Used `ubuntu-24.04-arm64` ❌ (invalid label)
-- Commit 9790fd3: Used `ubuntu-24.04-arm64-4core` ❌ (invalid label)
+- Commit b968753: Used `ubuntu-24.04-arm64`  (invalid label)
+- Commit 9790fd3: Used `ubuntu-24.04-arm64-4core`  (invalid label)
 - Commit 7252015: Temporarily disabled (correct action)
 - Commit 4502381: Diagnosed root cause and documented solutions
-- **Current**: Configured for self-hosted with labels `["self-hosted", "linux", "ARM64"]` ✅
+- **Current**: Configured for self-hosted with labels `["self-hosted", "linux", "ARM64"]` 
 
 **Deployment Roadmap:**
 
@@ -120,28 +120,28 @@ The ARM64 workflow was hanging because:
 **Why Self-Hosted?**
 
 Self-hosted ARM64 runners are the **only practical solution** because:
-- ✅ Fast native execution (no emulation overhead)
-- ✅ Full control over hardware specs
-- ✅ Cost-effective for frequent builds
-- ✅ Can be deployed on existing infrastructure
-- ❌ GitHub doesn't provide standard hosted ARM64 runners
-- ❌ QEMU emulation is 5-10x slower and unreliable
+-  Fast native execution (no emulation overhead)
+-  Full control over hardware specs
+-  Cost-effective for frequent builds
+-  Can be deployed on existing infrastructure
+-  GitHub doesn't provide standard hosted ARM64 runners
+-  QEMU emulation is 5-10x slower and unreliable
 
 ---
 
 ## Automated Runner Management System
 
-🎉 **NEW**: Embeddenator now includes a comprehensive Python-based automation system for managing self-hosted runners!
+ **NEW**: Embeddenator now includes a comprehensive Python-based automation system for managing self-hosted runners!
 
 ### Overview
 
 The `runner_manager.py` script provides complete lifecycle automation:
-- ✨ Automated registration with short-lived tokens
-- 🔄 Complete lifecycle management (register → run → deregister)
-- ⏱️ Auto-deregistration after configurable idle timeout
-- 🎯 Manual mode for persistent runners
-- 🚀 Multi-runner deployment support
-- 📊 Health monitoring and status reporting
+-  Automated registration with short-lived tokens
+-  Complete lifecycle management (register → run → deregister)
+-  Auto-deregistration after configurable idle timeout
+-  Manual mode for persistent runners
+-  Multi-runner deployment support
+-  Health monitoring and status reporting
 
 ### Quick Start
 
@@ -230,7 +230,7 @@ sudo ./svc.sh status
 
 **Purpose:** Build holographic OS containers for specific configurations
 
-**Status:** ✅ Active (manual trigger)
+**Status:**  Active (manual trigger)
 
 ---
 
@@ -248,7 +248,7 @@ sudo ./svc.sh status
 - Optional test execution before build
 - GHCR push with proper tagging
 
-**Status:** ✅ Active (manual trigger)
+**Status:**  Active (manual trigger)
 
 ---
 
@@ -263,7 +263,7 @@ sudo ./svc.sh status
 
 **Note:** ARM64 builds should be done locally or on self-hosted ARM64 runners
 
-**Status:** ✅ Active (scheduled)
+**Status:**  Active (scheduled)
 
 ---
 
@@ -287,7 +287,7 @@ sudo ./svc.sh status
 
 **Setup:** See [ARM64_RUNNER_SETUP.md](./ARM64_RUNNER_SETUP.md) for detailed instructions
 
-**Status:** ✅ Active (manual trigger, requires self-hosted runner)
+**Status:**  Active (manual trigger, requires self-hosted runner)
 
 ---
 
@@ -323,26 +323,26 @@ Manual/Scheduled:
 ## Key Improvements from Previous Version
 
 ### Before (Old ci.yml):
-❌ Two separate jobs: `build-test` + `multi-arch`
-❌ Duplicate runs: amd64 tests ran twice
-❌ Sequential execution: `multi-arch` waited for `build-test`
-❌ Invalid ARM64 runner causing hangs
-❌ Total time: ~25-30 minutes (with duplicates and waits)
+ Two separate jobs: `build-test` + `multi-arch`
+ Duplicate runs: amd64 tests ran twice
+ Sequential execution: `multi-arch` waited for `build-test`
+ Invalid ARM64 runner causing hangs
+ Total time: ~25-30 minutes (with duplicates and waits)
 
 ### After (New Structure):
-✅ Three separate workflows: pre-checks, amd64, arm64
-✅ No duplication: each test runs once
-✅ Parallel execution: pre-checks and platform builds can overlap
-✅ ARM64 properly diagnosed and documented
-✅ Total time: ~5-7 minutes (amd64 only, no duplicates)
+ Three separate workflows: pre-checks, amd64, arm64
+ No duplication: each test runs once
+ Parallel execution: pre-checks and platform builds can overlap
+ ARM64 properly diagnosed and documented
+ Total time: ~5-7 minutes (amd64 only, no duplicates)
 
 ## Performance Metrics
 
 | Workflow | Runtime | Status | Notes |
 |----------|---------|--------|-------|
-| ci-pre-checks.yml | ~3-5 min | ✅ Active | Every PR/push |
-| ci-amd64.yml | ~5-7 min | ✅ Active | **Required for merge** |
-| ci-arm64.yml | ~8-12 min (est.) | ⚠️ Configured, pending deployment | Self-hosted only |
+| ci-pre-checks.yml | ~3-5 min |  Active | Every PR/push |
+| ci-amd64.yml | ~5-7 min |  Active | **Required for merge** |
+| ci-arm64.yml | ~8-12 min (est.) |  Configured, pending deployment | Self-hosted only |
 | **Total (current)** | **~5-7 min** | **-50% vs before** | AMD64 only |
 | **Total (future w/ ARM64)** | **~10-15 min** | **Merge to main only** | Parallel execution |
 
@@ -408,11 +408,11 @@ When adding new workflows:
 
 | Architecture | Status | Runner Type | Trigger | Notes |
 |--------------|--------|-------------|---------|-------|
-| **amd64 (x86_64)** | ✅ Production | GitHub-hosted | Every PR (required) | Stable, fast |
+| **amd64 (x86_64)** |  Production | GitHub-hosted | Every PR (required) | Stable, fast |
 | **arm64 (aarch64)** | 🚧 Configured | Self-hosted | Manual only (pending) | Ready for deployment |
 
 **Future ARM64 Timeline:**
-1. ✅ **Completed**: Root cause analysis and workflow configuration
+1.  **Completed**: Root cause analysis and workflow configuration
 2. 🚧 **In Progress**: Self-hosted runner infrastructure setup
 3. ⏳ **Next**: Manual testing and validation
 4. ⏳ **Future**: Auto-trigger on merge to main

@@ -254,7 +254,7 @@ pub use embeddenator_io as io;
 pub use embeddenator_retrieval as retrieval;
 
 // Allows legacy code to work:
-// use embeddenator::vsa::SparseVec; ✅
+// use embeddenator::vsa::SparseVec; 
 ```
 
 See [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) for step-by-step instructions.

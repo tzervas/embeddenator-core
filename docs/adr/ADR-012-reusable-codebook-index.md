@@ -194,7 +194,7 @@ Embeddenator's design philosophy favors **explicit, predictable behavior** over 
 
 ## Consequences
 
-### Positive ✅
+### Positive 
 
 1. **Dramatic Speedup for Multiple Queries**:
    - **Single query**: ~same performance (build + query ≈ old query with internal build)
@@ -216,7 +216,7 @@ Embeddenator's design philosophy favors **explicit, predictable behavior** over 
    - Existing code paths function identically
    - Users can adopt new API incrementally
 
-### Negative / Trade-offs ⚠️
+### Negative / Trade-offs 
 
 1. **Memory Overhead**:
    - Index held in memory between queries

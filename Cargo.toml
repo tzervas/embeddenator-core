@@ -1,15 +1,15 @@
 [package]
-name = "embeddenator"
-version = "0.21.2"
+name = "embeddenator-core"
+version = "0.22.0"
 edition = "2021"
 authors = ["Tyler Zervas <tz-dev@vectorweight.com>"]
-description = "Sparse ternary VSA implementation for holographic data encoding"
+description = "Sparse ternary VSA implementation for holographic data encoding - umbrella crate re-exporting all embeddenator components"
 license = "MIT"
-repository = "https://github.com/tzervas/embeddenator"
-homepage = "https://github.com/tzervas/embeddenator"
+repository = "https://github.com/tzervas/embeddenator-core"
+homepage = "https://github.com/tzervas/embeddenator-core"
 keywords = ["vsa", "holographic", "vector-symbolic", "ternary", "encoding"]
 categories = ["encoding", "data-structures"]
-documentation = "https://docs.rs/embeddenator"
+documentation = "https://docs.rs/embeddenator-core"
 readme = "README.md"
 
 [package.metadata.docs.rs]

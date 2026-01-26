@@ -399,19 +399,19 @@ Still achieves <100ms for 10K tokens with decryption
 ### Threat Model
 
 **Protected Against**:
-- ✅ Unauthorized data access (requires master key)
-- ✅ Data exfiltration (encrypted at rest)
-- ✅ Pattern analysis attacks (XOR destroys patterns)
-- ✅ Known-plaintext attacks (unique lens per chunk)
-- ✅ Quantum attacks (no algebraic structure)
-- ✅ Brute force (2^256 keyspace)
-- ✅ Tampering (integrity vectors detect modifications)
+-  Unauthorized data access (requires master key)
+-  Data exfiltration (encrypted at rest)
+-  Pattern analysis attacks (XOR destroys patterns)
+-  Known-plaintext attacks (unique lens per chunk)
+-  Quantum attacks (no algebraic structure)
+-  Brute force (2^256 keyspace)
+-  Tampering (integrity vectors detect modifications)
 
 **NOT Protected Against** (require additional layers):
-- ❌ Side-channel attacks (timing, power analysis)
-- ❌ Memory dumps during decryption (plaintext in RAM)
-- ❌ Key compromise (no forward secrecy without key rotation)
-- ❌ Rubber-hose cryptanalysis (physical coercion)
+-  Side-channel attacks (timing, power analysis)
+-  Memory dumps during decryption (plaintext in RAM)
+-  Key compromise (no forward secrecy without key rotation)
+-  Rubber-hose cryptanalysis (physical coercion)
 
 ### Recommended Additional Layers
 

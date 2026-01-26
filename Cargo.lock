@@ -367,8 +367,24 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "48c757948c5ede0e46177b7add2e67155f70e33c07fea8284df6576da70b3719"
 
 [[package]]
-name = "embeddenator"
-version = "0.21.2"
+name = "embeddenator-cli"
+version = "0.21.1"
+dependencies = [
+ "anyhow",
+ "bincode",
+ "clap",
+ "embeddenator-fs",
+ "embeddenator-io",
+ "embeddenator-retrieval",
+ "embeddenator-vsa",
+ "serde",
+ "serde_json",
+ "walkdir",
+]
+
+[[package]]
+name = "embeddenator-core"
+version = "0.22.0"
 dependencies = [
  "bincode",
  "clap",
@@ -388,22 +404,6 @@ dependencies = [
  "serde_json",
  "sha2",
  "tempfile",
- "walkdir",
-]
-
-[[package]]
-name = "embeddenator-cli"
-version = "0.21.1"
-dependencies = [
- "anyhow",
- "bincode",
- "clap",
- "embeddenator-fs",
- "embeddenator-io",
- "embeddenator-retrieval",
- "embeddenator-vsa",
- "serde",
- "serde_json",
  "walkdir",
 ]
 

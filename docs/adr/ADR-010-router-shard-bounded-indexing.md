@@ -114,22 +114,22 @@ During retrieval:
 
 ### Positive
 
-- ✅ **Bounded Per-Node Memory**: Each node (router or shard) holds at most `max_chunks_per_node` chunks, ensuring predictable memory consumption.
-- ✅ **Bounded Index Size**: Inverted index size per shard is capped, improving index construction speed and memory efficiency.
-- ✅ **Predictable Query Cost**: Query latency per node is bounded; total cost scales with the number of shards (known at manifest-load time).
-- ✅ **Deterministic Shard Structure**: Shard generation is reproducible (per ADR-009), enabling regression testing and version control.
-- ✅ **Backward Compatible**: The `Option<usize>` parameter defaults to `None`, preserving existing behavior for users who don't need sharding.
-- ✅ **Scalability**: Systems can now handle directories with tens of thousands of files without memory exhaustion.
+-  **Bounded Per-Node Memory**: Each node (router or shard) holds at most `max_chunks_per_node` chunks, ensuring predictable memory consumption.
+-  **Bounded Index Size**: Inverted index size per shard is capped, improving index construction speed and memory efficiency.
+-  **Predictable Query Cost**: Query latency per node is bounded; total cost scales with the number of shards (known at manifest-load time).
+-  **Deterministic Shard Structure**: Shard generation is reproducible (per ADR-009), enabling regression testing and version control.
+-  **Backward Compatible**: The `Option<usize>` parameter defaults to `None`, preserving existing behavior for users who don't need sharding.
+-  **Scalability**: Systems can now handle directories with tens of thousands of files without memory exhaustion.
 
 ### Negative
 
-- ⚠️ **Increased Traversal Cost**: Queries must visit all shards in a router node, increasing the number of node visits.
+-  **Increased Traversal Cost**: Queries must visit all shards in a router node, increasing the number of node visits.
   - **Mitigation**: Each shard has bounded cost; total cost is still predictable and acceptable for large datasets.
   - **Future Work**: Parallel shard querying can amortize this cost.
-- ⚠️ **Manifest Size Growth**: Router nodes and shard nodes increase the total number of nodes in the manifest.
+-  **Manifest Size Growth**: Router nodes and shard nodes increase the total number of nodes in the manifest.
   - **Mitigation**: Manifest compression and lazy-loading can reduce storage overhead.
   - **Trade-off**: Manifest size growth is acceptable compared to the alternative (unbounded memory bloat).
-- ⚠️ **Configuration Complexity**: Users must choose an appropriate `max_chunks_per_node` value.
+-  **Configuration Complexity**: Users must choose an appropriate `max_chunks_per_node` value.
   - **Mitigation**: Documentation provides guidance (e.g., 100–1000 is typical); CLI defaults to unbounded for simplicity.
 
 ### Neutral

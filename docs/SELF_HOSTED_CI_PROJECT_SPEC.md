@@ -36,11 +36,11 @@ The Embeddenator project requires self-hosted GitHub Actions runners to support 
 
 ### Success Criteria
 
-- ✅ ARM64 CI workflow completes successfully on self-hosted runners
-- ✅ Runner automation system manages lifecycle without manual intervention
-- ✅ Cost savings >50% compared to cloud-based alternatives
-- ✅ Build time <15 minutes for full test suite on ARM64
-- ✅ Zero manual runner management required during normal operation
+-  ARM64 CI workflow completes successfully on self-hosted runners
+-  Runner automation system manages lifecycle without manual intervention
+-  Cost savings >50% compared to cloud-based alternatives
+-  Build time <15 minutes for full test suite on ARM64
+-  Zero manual runner management required during normal operation
 
 ---
 
@@ -70,7 +70,7 @@ Implement self-hosted runner infrastructure with:
 
 ## Current State
 
-### Completed ✅
+### Completed 
 
 - **v0.1.0 Release**: Core VSA implementation with AMD64 CI
 - **v0.2.0 Release**: Comprehensive test suite, clippy fixes
@@ -254,9 +254,9 @@ Implement self-hosted runner infrastructure with:
 5. Validate artifact generation
 
 **Success Criteria**:
-- ✅ Workflow completes in <15 minutes
-- ✅ All tests pass
-- ✅ Artifacts uploaded correctly
+-  Workflow completes in <15 minutes
+-  All tests pass
+-  Artifacts uploaded correctly
 
 #### Phase 2: Auto Mode Testing
 1. Enable auto mode with 5-minute idle timeout
@@ -265,16 +265,16 @@ Implement self-hosted runner infrastructure with:
 4. Trigger new workflow and verify auto-registration
 
 **Success Criteria**:
-- ✅ Auto-deregistration after idle timeout
-- ✅ Re-registration on new job
-- ✅ No manual intervention required
+-  Auto-deregistration after idle timeout
+-  Re-registration on new job
+-  No manual intervention required
 
 ---
 
 ## Future Roadmap
 
 ### Phase 1: Current (2025 Q1)
-- ✅ Runner automation framework complete
+-  Runner automation framework complete
 - 🚧 ARM64 runner deployment
 - ⏳ ARM64 CI enablement
 

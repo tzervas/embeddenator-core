@@ -207,11 +207,11 @@ The Embeddenator project includes a comprehensive Python-based automation system
 
 ### Why Use Automation?
 
-✅ **Automatic registration** with short-lived tokens  
-✅ **Health monitoring** and auto-recovery  
-✅ **Auto-scaling** with idle timeout  
-✅ **Multi-runner coordination**  
-✅ **Zero manual intervention** required  
+ **Automatic registration** with short-lived tokens  
+ **Health monitoring** and auto-recovery  
+ **Auto-scaling** with idle timeout  
+ **Multi-runner coordination**  
+ **Zero manual intervention** required  
 
 ### Quick Start with runner_manager.py
 
@@ -623,12 +623,12 @@ docker run --rm --platform linux/arm64 arm64v8/ubuntu uname -m
 
 #### 2.2 Monitor Execution
 Watch the workflow run and verify:
-- ✅ Runner picks up the job (status changes from "Queued" to "Running")
-- ✅ Architecture detection shows aarch64
-- ✅ Rust build completes successfully
-- ✅ All tests pass
-- ✅ Integration tests complete
-- ✅ Build artifacts are uploaded (if job fails)
+-  Runner picks up the job (status changes from "Queued" to "Running")
+-  Architecture detection shows aarch64
+-  Rust build completes successfully
+-  All tests pass
+-  Integration tests complete
+-  Build artifacts are uploaded (if job fails)
 
 #### 2.3 Expected Timings
 - **Native ARM64:** 8-15 minutes for full test suite
@@ -672,10 +672,10 @@ RUNNER_COUNT=2 python3 runner_manager.py run
 
 #### 4.2 Trigger Parallel Workflows
 Create 2-3 workflow runs simultaneously and verify:
-- ✅ Jobs are distributed across runners
-- ✅ Both runners show "Busy" status
-- ✅ No job failures due to resource contention
-- ✅ Build times are consistent across runners
+-  Jobs are distributed across runners
+-  Both runners show "Busy" status
+-  No job failures due to resource contention
+-  Build times are consistent across runners
 
 ### Phase 5: Failure Recovery Testing
 
@@ -754,16 +754,16 @@ tail -100 ~/actions-runner-*/_diag/Runner_*.log
 
 Before enabling automatic triggering on the main branch:
 
-- [ ] ✅ Manual workflow runs complete successfully 3+ times
-- [ ] ✅ All tests pass consistently
-- [ ] ✅ Build time within acceptable range (<15 min for native ARM64)
-- [ ] ✅ Resource usage monitored and within limits
-- [ ] ✅ Disk cleanup automation working
-- [ ] ✅ Security validation passed
-- [ ] ✅ Failure recovery tested
-- [ ] ✅ Runner uptime >99% over 1 week test period
-- [ ] ✅ Documentation reviewed and accurate
-- [ ] ✅ Team trained on monitoring and troubleshooting
+- [ ]  Manual workflow runs complete successfully 3+ times
+- [ ]  All tests pass consistently
+- [ ]  Build time within acceptable range (<15 min for native ARM64)
+- [ ]  Resource usage monitored and within limits
+- [ ]  Disk cleanup automation working
+- [ ]  Security validation passed
+- [ ]  Failure recovery tested
+- [ ]  Runner uptime >99% over 1 week test period
+- [ ]  Documentation reviewed and accurate
+- [ ]  Team trained on monitoring and troubleshooting
 
 ### Troubleshooting Validation Issues
 

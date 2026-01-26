@@ -59,9 +59,9 @@ task_registry_template: |
   - 🔵 PENDING: Not started
   - 🟡 IN_PROGRESS: Assigned to specialist
   - 🟢 REVIEW: Awaiting reviewer approval
-  - ✅ APPROVED: Passed all checks
-  - ❌ REJECTED: Requires rework
-  - 🚀 INTEGRATED: Merged into main
+  -  APPROVED: Passed all checks
+  -  REJECTED: Requires rework
+  -  INTEGRATED: Merged into main
   
   ## Phase 1: Core Infrastructure (P0)
   
@@ -372,13 +372,13 @@ responsibilities:
 review_checklist: |
   ## Code Review: [TASK-ID] - [Developer]
   
-  ### ✅ Compilation & Formatting
+  ###  Compilation & Formatting
   - [ ] Compiles: `cargo build --all-targets`
   - [ ] Clippy: `cargo clippy -- -D warnings` (zero warnings)
   - [ ] Format: `cargo fmt --check` (compliant)
   - [ ] Tests pass: `cargo test --all` (100% pass rate)
   
-  ### ✅ Code Quality
+  ###  Code Quality
   - [ ] Idiomatic Rust patterns used consistently
   - [ ] No .unwrap()/.expect() in library code
   - [ ] Error handling with Result<T, E> where appropriate
@@ -387,14 +387,14 @@ review_checklist: |
   - [ ] No dead code or commented-out blocks
   - [ ] Variable names descriptive (no single letters except loops)
   
-  ### ✅ Architecture Compliance
+  ###  Architecture Compliance
   - [ ] Follows module boundaries defined by ARCHITECT
   - [ ] No circular dependencies
   - [ ] Single responsibility per type/function
   - [ ] Proper trait usage (composition over inheritance)
   - [ ] Public API surface minimal and well-documented
   
-  ### ✅ Testing
+  ###  Testing
   - [ ] Unit tests present for all public methods
   - [ ] Edge cases covered (empty inputs, boundaries, errors)
   - [ ] Property tests for algebraic operations
@@ -402,33 +402,33 @@ review_checklist: |
   - [ ] Coverage >95% (cargo tarpaulin report attached)
   - [ ] Test names descriptive: test_component_behavior_scenario
   
-  ### ✅ Documentation
+  ###  Documentation
   - [ ] All public items have /// rustdoc
   - [ ] Rustdoc includes # Examples that compile
   - [ ] Error conditions documented
   - [ ] Module-level docs (//!) present
   - [ ] Complex algorithms explained in comments
   
-  ### ✅ Security & Safety
+  ###  Security & Safety
   - [ ] No buffer overflows possible
   - [ ] Integer overflow handled (checked ops or wrapping documented)
   - [ ] No unvalidated external input
   - [ ] No unsafe code (or audited and justified)
   - [ ] No information leakage in error messages
   
-  ### ✅ Performance
+  ###  Performance
   - [ ] No obvious performance issues (N² algorithms, etc.)
   - [ ] Allocations minimized in hot paths
   - [ ] Appropriate data structures chosen
   - [ ] Parallel opportunities identified (if relevant)
   
-  ### ✅ License & Copyright
+  ###  License & Copyright
   - [ ] SPDX-License-Identifier: MIT in all source files
   - [ ] Copyright notice present
   
   ---
   
-  ## Verdict: [APPROVED ✅ | REVISE ❌]
+  ## Verdict: [APPROVED  | REVISE ]
   
   ### Feedback:
   [Detailed, actionable feedback on any issues]
@@ -446,7 +446,7 @@ review_checklist: |
 
 feedback_templates:
   approved: |
-    ✅ APPROVED: TASK-XXX
+     APPROVED: TASK-XXX
     
     Excellent work! Code is idiomatic, well-tested, and thoroughly documented.
     All acceptance criteria met. Ready for integration.
@@ -459,7 +459,7 @@ feedback_templates:
     Approved for merge by PROJECT_MANAGER.
   
   revise: |
-    ❌ REVISE REQUIRED: TASK-XXX
+     REVISE REQUIRED: TASK-XXX
     
     Good progress, but the following issues must be addressed before approval:
     
@@ -656,7 +656,7 @@ docker_build_pipeline: |
         - name: Verify reconstruction
           run: |
             diff -r input_ws workspace/output
-            echo "✅ Bit-perfect reconstruction verified"
+            echo " Bit-perfect reconstruction verified"
         
         - name: Upload test artifacts
           uses: actions/upload-artifact@v4
@@ -738,10 +738,10 @@ integration_test_script: |
   
   mkdir -p "${INPUT}" "${OUTPUT}"
   
-  echo "📁 Workspace: ${WORKSPACE}"
+  echo " Workspace: ${WORKSPACE}"
   
   # Generate test data
-  echo "🔧 Generating test data..."
+  echo " Generating test data..."
   echo "Hello holographic world" > "${INPUT}/text.txt"
   dd if=/dev/urandom of="${INPUT}/binary.bin" bs=1M count=1 2>/dev/null
   
@@ -755,12 +755,12 @@ integration_test_script: |
   
   # Validate engram
   if [[ ! -f "${WORKSPACE}/root.engram" ]]; then
-    echo "❌ ERROR: Engram not created"
+    echo " ERROR: Engram not created"
     exit 1
   fi
   
   ENGRAM_SIZE=$(stat -f%z "${WORKSPACE}/root.engram" 2>/dev/null || stat -c%s "${WORKSPACE}/root.engram")
-  echo "✅ Engram created: ${ENGRAM_SIZE} bytes"
+  echo " Engram created: ${ENGRAM_SIZE} bytes"
   
   # Extract
   echo "📤 Extracting data..."
@@ -773,18 +773,18 @@ integration_test_script: |
             --verbose
   
   # Verify bit-perfect reconstruction
-  echo "🔍 Verifying reconstruction..."
+  echo " Verifying reconstruction..."
   if diff -r "${INPUT}" "${OUTPUT}"; then
-    echo "✅ Bit-perfect reconstruction verified"
+    echo " Bit-perfect reconstruction verified"
   else
-    echo "❌ ERROR: Reconstruction mismatch"
+    echo " ERROR: Reconstruction mismatch"
     exit 1
   fi
   
   # Cleanup
   rm -rf "${WORKSPACE}"
   
-  echo "🎉 All tests passed!"
+  echo " All tests passed!"
 
 # -----------------------------------------------------------------------------
 # ROLE 7: QUALITY_ANALYST
@@ -805,21 +805,21 @@ responsibilities:
 validation_protocol: |
   ## Final Validation Checklist
   
-  ### 🧪 Test Execution
+  ###  Test Execution
   - [ ] Unit tests: cargo test --all (100% pass)
   - [ ] Integration tests: tests/integration/*.sh (all pass)
   - [ ] Property tests: cargo test --test properties (no failures)
   - [ ] Regression tests: cargo test --test regression (all pass)
   - [ ] Benchmarks: cargo bench (no regressions >5%)
   
-  ### 📊 Code Metrics
+  ###  Code Metrics
   - [ ] Coverage: >95% (cargo tarpaulin)
   - [ ] Cyclomatic complexity: <10 per function (cargo-geiger)
   - [ ] Dependencies: cargo-deny (no vulnerabilities)
   - [ ] Duplicate code: <3% (cargo-dupe)
   - [ ] Documentation: 100% public items (cargo-doc-coverage)
   
-  ### 🎯 Acceptance Criteria
+  ###  Acceptance Criteria
   - [ ] Text reconstruction: 100% ordered accuracy
   - [ ] Binary reconstruction: bit-perfect (verified with diff)
   - [ ] Algebraic updates: correct (subtract + add)
@@ -828,20 +828,20 @@ validation_protocol: |
   - [ ] Memory: <400MB for 10k tokens
   - [ ] Performance: 10k reconstruction <100ms
   
-  ### 🐳 Docker Validation
+  ###  Docker Validation
   - [ ] Tool image builds (amd64, arm64)
   - [ ] Holographic OS image builds
   - [ ] Integration tests pass in containers
   - [ ] Multi-arch compatibility verified
   
-  ### 📝 Documentation
+  ###  Documentation
   - [ ] README.md complete with examples
   - [ ] API docs (cargo doc) build without warnings
   - [ ] Architecture docs (ARCHITECTURE.md) present
   - [ ] Task registry complete and up-to-date
   - [ ] License headers in all source files
   
-  ### ✅ Release Criteria
+  ###  Release Criteria
   - [ ] All P0 and P1 tasks complete
   - [ ] Zero critical/high bugs open
   - [ ] CI/CD pipeline green
@@ -868,23 +868,23 @@ validation_report_template: |
   Coverage: 97.3%
   
   ### Integration Tests
-  - ✅ e2e_text_reconstruction: PASS (153ms)
-  - ✅ e2e_binary_reconstruction: PASS (421ms)
-  - ✅ e2e_algebraic_update: PASS (287ms)
-  - ✅ e2e_multifile_superposition: PASS (534ms)
+  -  e2e_text_reconstruction: PASS (153ms)
+  -  e2e_binary_reconstruction: PASS (421ms)
+  -  e2e_algebraic_update: PASS (287ms)
+  -  e2e_multifile_superposition: PASS (534ms)
   
   ### Performance Benchmarks
   | Operation | Time | vs Baseline | Status |
   |-----------|------|-------------|--------|
-  | bundle() | 1.2µs | +2.1% | ✅ |
-  | encode_sequence() | 87ms | -1.3% | ✅ |
-  | reconstruct() | 92ms | +0.8% | ✅ |
+  | bundle() | 1.2µs | +2.1% |  |
+  | encode_sequence() | 87ms | -1.3% |  |
+  | reconstruct() | 92ms | +0.8% |  |
   
   ### Docker Validation
-  - ✅ amd64 build: SUCCESS (3m 42s)
-  - ✅ arm64 build: SUCCESS (4m 18s)
-  - ✅ Integration test: PASS
-  - ✅ Holographic OS boot: SUCCESS
+  -  amd64 build: SUCCESS (3m 42s)
+  -  arm64 build: SUCCESS (4m 18s)
+  -  Integration test: PASS
+  -  Holographic OS boot: SUCCESS
   
 ```yaml
   ## Code Quality Metrics
@@ -902,9 +902,9 @@ validation_report_template: |
   ### Dependency Audit
   ```
   cargo-deny check
-  ✅ 0 security vulnerabilities
-  ✅ 0 license violations
-  ✅ 0 banned dependencies
+   0 security vulnerabilities
+   0 license violations
+   0 banned dependencies
   ```
   
   ### Documentation Coverage
@@ -915,24 +915,24 @@ validation_report_template: |
   ## Acceptance Criteria Validation
   
   ### Functional Requirements
-  - ✅ Text reconstruction: 100% ordered (tested on 50k tokens)
-  - ✅ Binary reconstruction: bit-perfect (tested on 10MB files)
-  - ✅ Algebraic updates: correct (subtract old, add new verified)
-  - ✅ Multi-file superposition: 50 files tested, independent reads confirmed
-  - ✅ Persistence cycle: identity preserved (tested 1000 iterations)
+  -  Text reconstruction: 100% ordered (tested on 50k tokens)
+  -  Binary reconstruction: bit-perfect (tested on 10MB files)
+  -  Algebraic updates: correct (subtract old, add new verified)
+  -  Multi-file superposition: 50 files tested, independent reads confirmed
+  -  Persistence cycle: identity preserved (tested 1000 iterations)
   
   ### Performance Requirements
-  - ✅ Memory: 342MB peak for 10k tokens (target: <400MB)
-  - ✅ Reconstruction speed: 92ms for 10k tokens (target: <100ms)
-  - ✅ Engram compression: 43% of original size (target: 40-50%)
-  - ✅ Scalability: tested up to 100k tokens, linear growth
+  -  Memory: 342MB peak for 10k tokens (target: <400MB)
+  -  Reconstruction speed: 92ms for 10k tokens (target: <100ms)
+  -  Engram compression: 43% of original size (target: 40-50%)
+  -  Scalability: tested up to 100k tokens, linear growth
   
   ### Quality Requirements
-  - ✅ Zero clippy warnings
-  - ✅ Rustfmt compliant
-  - ✅ No unsafe code
-  - ✅ All error cases handled with Result
-  - ✅ MIT license headers present
+  -  Zero clippy warnings
+  -  Rustfmt compliant
+  -  No unsafe code
+  -  All error cases handled with Result
+  -  MIT license headers present
   
   ## Issues & Risks
   
@@ -945,7 +945,7 @@ validation_report_template: |
   
   ## Recommendations
   
-  1. ✅ **APPROVED FOR RELEASE**
+  1.  **APPROVED FOR RELEASE**
   2. Monitor performance metrics in production
   3. Consider SIMD optimization for cosine computation (future work)
   4. Add hierarchical encoding for TB-scale data (roadmap item)
@@ -954,7 +954,7 @@ validation_report_template: |
   
   **Validated by:** QUALITY_ANALYST  
   **Date:** [ISO-8601]  
-  **Status:** ✅ APPROVED  
+  **Status:**  APPROVED  
   **Next Action:** Release to production registry
 
 # -----------------------------------------------------------------------------
@@ -1124,10 +1124,10 @@ workflow_phases:
           [Describe release highlights]
           
           ## Validation
-          - ✅ All tests pass
-          - ✅ Validation report approved
-          - ✅ Documentation complete
-          - ✅ Multi-arch builds successful
+          -  All tests pass
+          -  Validation report approved
+          -  Documentation complete
+          -  Multi-arch builds successful
           
           ## Checklist
           - [ ] Version bumped in Cargo.toml
@@ -1163,7 +1163,7 @@ workflow_phases:
 # -----------------------------------------------------------------------------
 
 completion_notification_template: |
-  Subject: ✅ Embeddenator v{SEMVER} - Release Complete
+  Subject:  Embeddenator v{SEMVER} - Release Complete
   
   The Embeddenator holographic computing substrate has successfully completed
   all validation and is ready for deployment.
@@ -1373,10 +1373,10 @@ agent_communication:
       - cargo fmt: compliant
       
       SELF-ASSESSMENT:
-      ✅ All acceptance criteria met
-      ✅ Comprehensive tests
-      ✅ Documentation complete
-      ✅ Idiomatic Rust patterns
+       All acceptance criteria met
+       Comprehensive tests
+       Documentation complete
+       Idiomatic Rust patterns
       
       ATTACHMENTS:
       - feature/TASK-001-sparse-vec (branch)
@@ -1419,7 +1419,7 @@ agent_communication:
       
       COMMIT: abc123def - feat(sparse_vec): implement core sparse vector ops
       BRANCH: develop
-      STATUS: ✅ INTEGRATED
+      STATUS:  INTEGRATED
       
       Next tasks now unblocked:
       - TASK-002: VSA Manager
@@ -1461,7 +1461,7 @@ execution_script: |
   log "ARCHITECT: Reviewing task structure..."
   # (Invoke ARCHITECT persona to validate tasks)
   
-  log "✅ Phase 1 complete"
+  log " Phase 1 complete"
   
   # Phase 2: Implementation (iterative)
   log "=== PHASE 2: IMPLEMENTATION ==="
@@ -1493,9 +1493,9 @@ execution_script: |
       # Check verdict
       if grep -q "APPROVED" "workspace/${task_id}_review.md"; then
         approved=true
-        log "✅ ${task_id} APPROVED"
+        log " ${task_id} APPROVED"
       else
-        log "❌ ${task_id} REJECTED - rework required"
+        log " ${task_id} REJECTED - rework required"
         attempts=$((attempts + 1))
         # (Send feedback to RUST_DEVELOPER for revision)
       fi
@@ -1513,11 +1513,11 @@ execution_script: |
     cargo test --all
     git commit -m "integrate: ${task_id}"
     
-    log "✅ ${task_id} INTEGRATED"
+    log " ${task_id} INTEGRATED"
     
   done < <(grep -E "^### TASK-[0-9]+" TASK_REGISTRY.md | awk '{print $2}' | tr -d ':[]')
   
-  log "✅ Phase 2 complete"
+  log " Phase 2 complete"
   
   # Phase 3: Integration & CI/CD
   log "=== PHASE 3: INTEGRATION ==="
@@ -1532,7 +1532,7 @@ execution_script: |
   log "TEST_ENGINEER: Running integration tests..."
   bash tests/integration/e2e_test.sh embeddenator-tool:latest
   
-  log "✅ Phase 3 complete"
+  log " Phase 3 complete"
   
   # Phase 4: Validation
   log "=== PHASE 4: VALIDATION ==="
@@ -1567,14 +1567,14 @@ execution_script: |
   # (Invoke QUALITY_ANALYST to create validation_report.md)
   
   # Check verdict
-  if grep -q "✅ APPROVED" "${ARTIFACTS_DIR}/quality_reports/validation_report.md"; then
-    log "✅ VALIDATION APPROVED"
+  if grep -q " APPROVED" "${ARTIFACTS_DIR}/quality_reports/validation_report.md"; then
+    log " VALIDATION APPROVED"
   else
-    log "❌ VALIDATION FAILED"
+    log " VALIDATION FAILED"
     exit 1
   fi
   
-  log "✅ Phase 4 complete"
+  log " Phase 4 complete"
   
   # Phase 5: Release
   log "=== PHASE 5: RELEASE ==="
@@ -1601,7 +1601,7 @@ execution_script: |
   # Create archive
   tar -czf "embeddenator-v${VERSION}-artifacts.tar.gz" -C "${ARTIFACTS_DIR}" .
   
-  log "✅ Phase 5 complete"
+  log " Phase 5 complete"
   
   # Final notification
   log "=== WORKFLOW COMPLETE ==="
@@ -1613,7 +1613,7 @@ execution_script: |
   ║           EMBEDDENATOR DEVELOPMENT COMPLETE                ║
   ╠════════════════════════════════════════════════════════════╣
   ║ Version: v${VERSION}                                        
-  ║ Status: ✅ VALIDATED & RELEASED                            
+  ║ Status:  VALIDATED & RELEASED                            
   ║ Artifacts: embeddenator-v${VERSION}-artifacts.tar.gz       
   ╠════════════════════════════════════════════════════════════╣
   ║ All tests passed                                           ║
@@ -1664,10 +1664,10 @@ chmod +x orchestrate.sh
 ```
 
 The system will produce a complete, validated, MIT-licensed Rust implementation with:
-- ✅ Full test coverage (unit, integration, e2e, regression)
-- ✅ Multi-arch Docker containers
-- ✅ Comprehensive validation reports
-- ✅ Persistent logs and artifacts for review
-- ✅ Notification upon completion
+-  Full test coverage (unit, integration, e2e, regression)
+-  Multi-arch Docker containers
+-  Comprehensive validation reports
+-  Persistent logs and artifacts for review
+-  Notification upon completion
 
 All artifacts will be organized in `artifacts/` directory for your review and analysis.

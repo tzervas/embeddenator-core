@@ -3,7 +3,7 @@
 **Date:** 2026-01-04  
 **Auditor:** Workflow Orchestrator  
 **Scope:** src/simd_cosine.rs unsafe blocks for embeddenator-vsa extraction  
-**Status:** ✅ APPROVED (with documentation improvements required)
+**Status:**  APPROVED (with documentation improvements required)
 
 ## Overview
 
@@ -24,7 +24,7 @@ The `simd_cosine.rs` module contains 5 unsafe blocks implementing AVX2 and NEON 
 
 **Current SAFETY Comment:** "We check for AVX2 support at compile time via target_feature"
 
-**Assessment:** ✅ SAFE - Compile-time feature gating ensures correct CPU support
+**Assessment:**  SAFE - Compile-time feature gating ensures correct CPU support
 
 **Recommendation:** Enhance comment to document memory safety guarantees
 
@@ -41,7 +41,7 @@ The `simd_cosine.rs` module contains 5 unsafe blocks implementing AVX2 and NEON 
 
 **Current SAFETY Comment:** None explicit
 
-**Assessment:** ✅ SAFE - Slice bounds prevent out-of-bounds access, unaligned loads are safe
+**Assessment:**  SAFE - Slice bounds prevent out-of-bounds access, unaligned loads are safe
 
 **Recommendation:** Add explicit SAFETY comment documenting slice bound guarantees
 
@@ -50,7 +50,7 @@ The `simd_cosine.rs` module contains 5 unsafe blocks implementing AVX2 and NEON 
 
 **Safety Justification:** "We check for AVX2 support at compile time via target_feature"
 
-**Assessment:** ✅ SAFE - Feature gate ensures AVX2 availability
+**Assessment:**  SAFE - Feature gate ensures AVX2 availability
 
 ### 4. `cosine_neon_impl` (Line 171)
 **Function signature:** `unsafe fn cosine_neon_impl(a: &SparseVec, b: &SparseVec) -> f64`
@@ -64,7 +64,7 @@ The `simd_cosine.rs` module contains 5 unsafe blocks implementing AVX2 and NEON 
 
 **Current SAFETY Comment:** "NEON is always available on aarch64"
 
-**Assessment:** ✅ SAFE - Architecture guarantee ensures instruction availability
+**Assessment:**  SAFE - Architecture guarantee ensures instruction availability
 
 ### 5. `intersection_count_simd_neon` (Line 194)
 **Function signature:** `unsafe fn intersection_count_simd_neon(a: &[usize], b: &[usize]) -> usize`
@@ -78,7 +78,7 @@ The `simd_cosine.rs` module contains 5 unsafe blocks implementing AVX2 and NEON 
 
 **Current SAFETY Comment:** None
 
-**Assessment:** ⚠️ NEEDS REVIEW - Unaligned load instruction may cause UB on some platforms
+**Assessment:**  NEEDS REVIEW - Unaligned load instruction may cause UB on some platforms
 
 **Recommendation:** 
 - Use unaligned load intrinsic or verify alignment
@@ -90,12 +90,12 @@ The `simd_cosine.rs` module contains 5 unsafe blocks implementing AVX2 and NEON 
 
 **Safety Justification:** "NEON is always available on aarch64"
 
-**Assessment:** ✅ SAFE - Platform guarantee
+**Assessment:**  SAFE - Platform guarantee
 
 ## Overall Assessment
 
 **Risk Level:** LOW  
-**Approval Status:** ✅ APPROVED for extraction with minor improvements
+**Approval Status:**  APPROVED for extraction with minor improvements
 
 ### Required Actions Before Release
 
@@ -122,12 +122,12 @@ The `simd_cosine.rs` module contains 5 unsafe blocks implementing AVX2 and NEON 
 
 ### Positive Security Properties
 
-✅ No raw pointer dereferencing  
-✅ All unsafe code feature-gated by target platform  
-✅ Slice APIs provide bounds checking  
-✅ No uninitialized memory usage  
-✅ No manual memory management  
-✅ Clear separation from safe code
+ No raw pointer dereferencing  
+ All unsafe code feature-gated by target platform  
+ Slice APIs provide bounds checking  
+ No uninitialized memory usage  
+ No manual memory management  
+ Clear separation from safe code
 
 ### Migration to embeddenator-vsa
 

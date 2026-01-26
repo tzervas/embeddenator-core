@@ -1,68 +1,69 @@
 # Embeddenator — Holographic Computing Substrate
 
-> **⚠️ EARLY DEVELOPMENT:** This project is in active development (v0.20.0-alpha). APIs are unstable and subject to change. Not recommended for production use.
+**Version 0.22.0** | Rust implementation of sparse ternary Vector Symbolic Architecture (VSA) for holographic data encoding.
 
-**Version 0.20.0-alpha** | Experimental Rust implementation of sparse ternary Vector Symbolic Architecture (VSA) for holographic data encoding.
+Embeddenator is an encoding method and data model. It is not a security implementation.
 
-**Author:** Tyler Zervas <tz-dev@vectorweight.com>  
-**License:** MIT (see [LICENSE](LICENSE) file)  
+**Author:** Tyler Zervas <tz-dev@vectorweight.com>
+**License:** MIT (see [LICENSE](LICENSE) file)
 
-[![CI](https://github.com/tzervas/embeddenator/workflows/CI/badge.svg)](https://github.com/tzervas/embeddenator/actions)
+[![CI](https://github.com/tzervas/embeddenator-core/workflows/CI/badge.svg)](https://github.com/tzervas/embeddenator-core/actions)
+[![crates.io](https://img.shields.io/crates/v/embeddenator-core.svg)](https://crates.io/crates/embeddenator-core)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ## Component Architecture
 
-Embeddenator has been refactored into a **modular component architecture** with 6 independent library crates:
+Embeddenator is organized into 8 independent library crates:
 
-- **[embeddenator-vsa](https://github.com/tzervas/embeddenator-vsa)** - Sparse ternary VSA primitives
-- **[embeddenator-io](https://github.com/tzervas/embeddenator-io)** - Codebook, manifest, engram I/O
-- **[embeddenator-retrieval](https://github.com/tzervas/embeddenator-retrieval)** - Query engine with shift-sweep search
-- **[embeddenator-fs](https://github.com/tzervas/embeddenator-fs)** - FUSE filesystem integration
-- **[embeddenator-interop](https://github.com/tzervas/embeddenator-interop)** - Python/FFI bindings
-- **[embeddenator-obs](https://github.com/tzervas/embeddenator-obs)** - Observability and metrics
+| Crate | Description | crates.io |
+|-------|-------------|----------|
+| [embeddenator-vsa](https://crates.io/crates/embeddenator-vsa) | Sparse ternary VSA primitives | 0.21.0 |
+| [embeddenator-io](https://crates.io/crates/embeddenator-io) | Codebook, manifest, engram I/O | 0.21.0 |
+| [embeddenator-obs](https://crates.io/crates/embeddenator-obs) | Observability and metrics | 0.21.0 |
+| [embeddenator-retrieval](https://crates.io/crates/embeddenator-retrieval) | Query engine with shift-sweep search | 0.21.0 |
+| [embeddenator-fs](https://crates.io/crates/embeddenator-fs) | FUSE filesystem integration | 0.23.0 |
+| [embeddenator-interop](https://crates.io/crates/embeddenator-interop) | Python/FFI bindings | 0.22.0 |
+| [embeddenator-cli](https://crates.io/crates/embeddenator-cli) | Command-line interface | 0.21.0 |
+| [embeddenator-core](https://crates.io/crates/embeddenator-core) | Umbrella crate (re-exports) | 0.22.0 |
 
-**📚 Documentation:** [Component Architecture](docs/COMPONENT_ARCHITECTURE.md) | [Local Development](docs/LOCAL_DEVELOPMENT.md) | [Versioning](docs/VERSIONING.md)
-
-**🐳 Docker:** Multi-arch images available at `ghcr.io/tzervas/embeddenator` ([amd64](https://github.com/tzervas/embeddenator/pkgs/container/embeddenator) + arm64)
+See [Component Architecture](docs/COMPONENT_ARCHITECTURE.md) for details.
 
 ## Current Capabilities
 
 ### Implemented Features
 - **Engram Encoding/Decoding**: Create holographic encodings (`.engram` files) of filesystems
-- **Bit-Perfect Reconstruction**: Verified reconstruction of text and binary files from engrams
+- **Data Reconstruction**: Reconstruction of files from engrams with correction store
 - **VSA Operations**: Bundle, bind, and other vector symbolic operations on sparse ternary vectors
 - **Hierarchical Encoding**: Multi-level chunking for handling larger datasets
-- **SIMD Support**: Optional AVX2/NEON optimizations (experimental, 2-4x speedup on supported hardware)
-- **CLI Tool**: Command-line interface for ingest, extract, and query operations
-- **Component Architecture**: Modular design with 6 independent library crates
-- **Test Coverage**: 160+ integration tests covering core functionality (97.6% pass rate)
+- **SIMD Support**: Optional AVX2/NEON optimizations (2-4x speedup on supported hardware)
+- **CLI Tool**: Command-line interface for ingest, extract, query, and update operations
+- **Incremental Updates**: Add, remove, modify files without full re-ingestion
+- **Test Coverage**: 160+ integration tests covering core functionality
+
+### Known Limitations
+
+The following limitations are documented based on test results:
+
+- **Large file reconstruction**: Fidelity degrades for files over 1MB with default configuration
+- **Deep path encoding**: Path depths beyond 20 levels may produce incorrect output
+- **Bind inverse**: The bind inverse operation degrades for sparse key configurations
+- **Storage overhead**: VSA encoding produces larger output than input (approximately 2-3x)
+
+These limitations are inherent to the VSA encoding model and are documented in the test suite.
 
 ### Experimental/In Development
 - **FUSE Filesystem**: EmbrFS integration (partial implementation)
 - **Query Performance**: Similarity search and retrieval (basic implementation)
-- **Docker Support**: Multi-arch containers (in development)
-- **Large-Scale Testing**: TB-scale validation (planned)
-- **OS Container Encoding**: Full system encoding (proof-of-concept only)
+- **Large-Scale Testing**: TB-scale validation (manual testing only)
 
-## What's New in v0.20.0-alpha
-
-- 🎯 **Deterministic hierarchical artifacts** - Stable manifest/sub-engram generation with sorted iteration
-- 📊 **Optional node sharding** - `--max-chunks-per-node` cap for bounded per-node indexing cost
-- 📂 **Multi-input ingest** - Ingest files and/or multiple directories with automatic namespacing
-- ⚡ **Query performance** - Reusable codebook index across shift-sweep + increased candidate pool
-- 🧪 **Expanded test coverage** - New determinism and E2E hierarchical artifact tests
-- 📚 **Updated documentation** - CLI reference, hierarchical format, and selective unfolding guides
-
-## What's New in v0.2.0
-
-- ✨ **6 comprehensive E2E regression tests** including critical engram modification test
-- 🧪 **Comprehensive test suite** (unit + integration + e2e + doc tests)
-- 🔍 **Intelligent test runner** with accurate counting and debug mode
-- 📦 **Dual versioning strategy** for OS builds (LTS + nightly)
-- 🎯 **Zero clippy warnings** (29 fixes applied)
-- 🐧 **Extended OS support**: Debian 12 LTS, Debian Testing/Sid, Ubuntu 24.04 LTS, Ubuntu Devel/Rolling
-- 🚀 **Native amd64 CI** (required pre-merge check) + arm64 ready for self-hosted runners
-- 📚 **Automated documentation** with rustdoc and 9 doc tests
+## Version History
+-  **Comprehensive test suite** (unit + integration + e2e + doc tests)
+-  **Intelligent test runner** with accurate counting and debug mode
+-  **Dual versioning strategy** for OS builds (LTS + nightly)
+-  **Zero clippy warnings** (29 fixes applied)
+-  **Extended OS support**: Debian 12 LTS, Debian Testing/Sid, Ubuntu 24.04 LTS, Ubuntu Devel/Rolling
+-  **Native amd64 CI** (required pre-merge check) + arm64 ready for self-hosted runners
+-  **Automated documentation** with rustdoc and 9 doc tests
 
 ## Core Concepts
 
@@ -89,31 +90,46 @@ The ternary representation {-1, 0, +1} enables efficient computation:
 An **engram** is a holographic encoding of an entire filesystem or dataset:
 
 - Single root vector containing superposition of all chunks
-- Secure codebook with VSA-lens encoded data (not plaintext)
+- Codebook storing encoded vector representations of data chunks
 - Manifest tracking file structure and metadata
 
-**Data Encoding**: The codebook stores encoded vector representations of data chunks. The encoding mechanism:
-- Requires the codebook for reconstruction (codebook acts as a key)
+**Data Encoding**: The codebook stores encoded vector representations of data chunks:
+- Codebook is required for reconstruction
 - Uses sparse ternary vectors for holographic superposition
 - Supports deterministic encoding and decoding
-- **Security Note**: The cryptographic properties of this encoding are under research. Do not use for security-critical applications.
 
-See [ADR-007](docs/adr/ADR-007-codebook-security.md) for details on the encoding model.
+Note: Embeddenator is an encoding method, not a security implementation. The codebook provides no cryptographic guarantees.
 
 ## Quick Start
 
 ### Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/tzervas/embeddenator.git
-cd embeddenator
+# From crates.io
+cargo install embeddenator-core
+
+# Or clone the repository
+git clone https://github.com/tzervas/embeddenator-core.git
+cd embeddenator-core
 
 # Build with Cargo
 cargo build --release
 
 # Or use the orchestrator
 python3 orchestrator.py --mode build --verbose
+```
+
+### As a Library
+
+```toml
+# Cargo.toml
+[dependencies]
+embeddenator-core = "0.22"
+```
+
+```rust
+// Rust imports use the lib name "embeddenator"
+use embeddenator::prelude::*;
 ```
 
 ### Basic Usage
@@ -346,17 +362,17 @@ Embeddenator has comprehensive test coverage:
 
 ### Verified Capabilities
 
-- ✅ **Text file reconstruction**: Byte-for-byte identical reconstruction verified
-- ✅ **Binary file recovery**: Exact binary reconstruction tested
-- ✅ **VSA operations**: Bundle, bind, and similarity operations tested
-- ✅ **Hierarchical encoding**: Multi-level chunking verified
-- ✅ **Error recovery**: Corruption and concurrency handling tested
+-  **Text file reconstruction**: Byte-for-byte identical reconstruction verified
+-  **Binary file recovery**: Exact binary reconstruction tested
+-  **VSA operations**: Bundle, bind, and similarity operations tested
+-  **Hierarchical encoding**: Multi-level chunking verified
+-  **Error recovery**: Corruption and concurrency handling tested
 
 ### In Development
 
-- ⚠️ **Large-scale testing**: TB-scale datasets not yet fully validated
-- ⚠️ **Performance optimization**: Benchmarking and tuning ongoing
-- ⚠️ **Security audit**: Cryptographic properties under research
+-  **Large-scale testing**: TB-scale datasets not yet fully validated
+-  **Performance optimization**: Benchmarking and tuning ongoing
+-  **Security audit**: Cryptographic properties under research
 
 ## Architecture
 
@@ -521,12 +537,12 @@ Three separate workflows eliminate duplication and provide clear responsibilitie
 
 | Architecture | Status | Runner Type | Trigger | Notes |
 |--------------|--------|-------------|---------|-------|
-| **amd64 (x86_64)** | ✅ Production | GitHub-hosted (ubuntu-latest) | Every PR (required check) | Stable, 5-7min |
+| **amd64 (x86_64)** |  Production | GitHub-hosted (ubuntu-latest) | Every PR (required check) | Stable, 5-7min |
 | **arm64 (aarch64)** | 🚧 Ready | Self-hosted (pending deployment) | Manual only | Will enable on merge to main |
 
 **ARM64 Deployment Roadmap:**
-- ✅ **Phase 1**: Root cause analysis completed - GitHub doesn't provide standard ARM64 runners
-- ✅ **Phase 2**: Workflow configured for self-hosted runners with labels `["self-hosted", "linux", "ARM64"]`
+-  **Phase 1**: Root cause analysis completed - GitHub doesn't provide standard ARM64 runners
+-  **Phase 2**: Workflow configured for self-hosted runners with labels `["self-hosted", "linux", "ARM64"]`
 - 🚧 **Phase 3**: Deploy self-hosted ARM64 infrastructure (in progress)
 - ⏳ **Phase 4**: Manual testing and validation
 - ⏳ **Phase 5**: Enable automatic trigger on merge to main only
@@ -544,14 +560,14 @@ See `.github/workflows/README.md` for complete CI/CD documentation and ARM64 set
 Embeddenator includes a comprehensive Python-based automation system for managing GitHub Actions self-hosted runners with complete lifecycle management and **multi-architecture support**:
 
 **Features:**
-- ✨ Automated registration with short-lived tokens
-- 🔄 Complete lifecycle management (register → run → deregister)
-- ⏱️ Configurable auto-deregistration after idle timeout
-- 🎯 Manual mode for persistent runners
-- 🚀 Multi-runner deployment support
-- 🏗️ **Multi-architecture support (x64, ARM64, RISC-V)**
-- 🔧 **QEMU emulation for cross-architecture runners**
-- 📊 Health monitoring and status reporting
+-  Automated registration with short-lived tokens
+-  Complete lifecycle management (register → run → deregister)
+-  Configurable auto-deregistration after idle timeout
+-  Manual mode for persistent runners
+-  Multi-runner deployment support
+-  **Multi-architecture support (x64, ARM64, RISC-V)**
+-  **QEMU emulation for cross-architecture runners**
+-  Health monitoring and status reporting
 - 🧹 Automatic cleanup of Docker resources
 - ⚙️ Flexible configuration via .env file or CLI arguments
 
@@ -774,12 +790,12 @@ We welcome contributions to Embeddenator! Here's how you can help:
 We especially welcome contributions in these areas:
 
 - 🔬 **Performance optimizations** for VSA operations
-- 📊 **Benchmarking tools** and performance analysis
-- 🧪 **Additional test cases** covering edge cases
-- 📚 **Documentation improvements** and examples
+-  **Benchmarking tools** and performance analysis
+-  **Additional test cases** covering edge cases
+-  **Documentation improvements** and examples
 - 🐛 **Bug fixes** and error handling improvements
-- 🌐 **Multi-platform support** (Windows, macOS testing)
-- 🔧 **New features** (incremental updates, compression options, etc.)
+-  **Multi-platform support** (Windows, macOS testing)
+-  **New features** (incremental updates, compression options, etc.)
 
 #### Reporting Issues
 
@@ -805,7 +821,7 @@ When reporting bugs, please include:
 - Focus on the technical merits
 - Help others learn and grow
 
-Thank you for contributing to Embeddenator! 🎉
+Thank you for contributing to Embeddenator! 
 
 ## Advanced Usage
 
@@ -939,12 +955,6 @@ When reporting bugs, please include:
 - Expected vs. actual behavior
 - Relevant log output (use `--verbose` flag)
 
-### Security
-
-**⚠️ Security Notice**: The cryptographic properties of the encoding mechanism are under research. Do not use Embeddenator for security-critical applications or as a replacement for established cryptographic systems.
-
-If you discover a security vulnerability, please email tz-dev@vectorweight.com or create a private security advisory on GitHub rather than opening a public issue.
-
 ## Documentation
 
 ### Project Documentation
@@ -962,9 +972,6 @@ If you discover a security vulnerability, please email tz-dev@vectorweight.com o
 # Generate and view API documentation
 cargo doc --open
 ```
-
-### Handoff Documentation
-- **[QA to Documentation Handoff](docs/handoff/QA_TO_DOCUMENTATION_2026-01-09.md)** - Latest QA phase completion report
 
 ---
 

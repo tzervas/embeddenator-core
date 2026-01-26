@@ -170,14 +170,14 @@ git push origin main
 
 ### Tagging Best Practices
 
-✅ **Do:**
+ **Do:**
 - Use annotated tags: `git tag -a v0.1.0 -m "Release notes"`
 - Include version prefix: `v0.1.0` not `0.1.0`
 - Write descriptive tag messages
 - Push tags explicitly: `git push origin v0.1.0`
 - Verify tag on GitHub: https://github.com/tzervas/embeddenator-vsa/tags
 
-❌ **Don't:**
+ **Don't:**
 - Use lightweight tags: `git tag v0.1.0` (no `-a`)
 - Forget to push tags: `git push` doesn't push tags by default
 - Delete/rewrite tags after pushing (breaks consumers)
@@ -302,10 +302,10 @@ docker push ghcr.io/tzervas/embeddenator:v0.20.0
 
 | Tag | Stability | Recommendation |
 |-----|-----------|----------------|
-| `latest` | Unstable (always newest) | ❌ Avoid in production |
-| `vX.Y.Z` | Immutable | ✅ Use in production |
-| `vX.Y` | Updates with patches | ⚠️ Use if auto-patching desired |
-| `vX` | Updates with features | ❌ Too unstable for production |
+| `latest` | Unstable (always newest) |  Avoid in production |
+| `vX.Y.Z` | Immutable |  Use in production |
+| `vX.Y` | Updates with patches |  Use if auto-patching desired |
+| `vX` | Updates with features |  Too unstable for production |
 
 ## Deprecation Process
 

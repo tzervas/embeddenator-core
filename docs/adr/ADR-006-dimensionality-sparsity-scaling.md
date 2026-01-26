@@ -158,14 +158,14 @@ fn calculate_sparsity(dimensionality: usize) -> f32 {
 ```
 
 **Benefits**:
-- ✅ Constant computational complexity O(NON_ZERO_TARGET)
-- ✅ Constant memory per vector
-- ✅ Exponentially lower collision probability
-- ✅ Better signal separation for cosine similarity
+-  Constant computational complexity O(NON_ZERO_TARGET)
+-  Constant memory per vector
+-  Exponentially lower collision probability
+-  Better signal separation for cosine similarity
 
 **Trade-offs**:
-- ⚠️ Requires larger random seed space (more random bits)
-- ⚠️ Slightly higher initial setup cost for index generation
+-  Requires larger random seed space (more random bits)
+-  Slightly higher initial setup cost for index generation
 
 #### Trick 2: Block-Sparse Representation
 
@@ -186,14 +186,14 @@ struct BlockSparseVec {
 ```
 
 **Benefits**:
-- ✅ Faster random access: O(log B) instead of O(log D)
-- ✅ Better cache locality (blocks fit in L1/L2 cache)
-- ✅ Can leverage SIMD within blocks
-- ✅ Easier to scale to millions of dimensions
+-  Faster random access: O(log B) instead of O(log D)
+-  Better cache locality (blocks fit in L1/L2 cache)
+-  Can leverage SIMD within blocks
+-  Easier to scale to millions of dimensions
 
 **Trade-offs**:
-- ⚠️ Slightly more complex implementation
-- ⚠️ Need to balance block size vs. number of blocks
+-  Slightly more complex implementation
+-  Need to balance block size vs. number of blocks
 
 #### Trick 3: Multi-Resolution Encoding
 
@@ -213,14 +213,14 @@ struct MultiResolutionVec {
 ```
 
 **Benefits**:
-- ✅ Fast approximate queries using coarse level
-- ✅ High precision when needed using fine level
-- ✅ Graceful degradation under noise
-- ✅ Can trade accuracy for speed dynamically
+-  Fast approximate queries using coarse level
+-  High precision when needed using fine level
+-  Graceful degradation under noise
+-  Can trade accuracy for speed dynamically
 
 **Trade-offs**:
-- ⚠️ 3× memory per vector (but still reasonable: ~5KB)
-- ⚠️ More complex encoding/decoding logic
+-  3× memory per vector (but still reasonable: ~5KB)
+-  More complex encoding/decoding logic
 
 #### Trick 4: Hierarchical Random Projection
 
@@ -239,13 +239,13 @@ struct ProjectedVec {
 ```
 
 **Benefits**:
-- ✅ Fast operations in lower-dimensional space
-- ✅ Can use multiple projections for error correction
-- ✅ Mathematically proven bounds on information loss
+-  Fast operations in lower-dimensional space
+-  Can use multiple projections for error correction
+-  Mathematically proven bounds on information loss
 
 **Trade-offs**:
-- ⚠️ Projection/inverse projection overhead
-- ⚠️ Not suitable for all operations (works for query, not for factoralization)
+-  Projection/inverse projection overhead
+-  Not suitable for all operations (works for query, not for factoralization)
 
 ### 4. Impact on 100% Bit-Perfect Guarantee
 
@@ -270,10 +270,10 @@ Reconstruction Process:
 ```
 
 **Guarantee Preservation**:
-- ✅ As long as cosine similarity > threshold, correct chunk ID retrieved
-- ✅ Once correct ID retrieved, codebook decrypts to perfect data (with master key)
-- ✅ Higher dimensionality → better similarity scores → lower failure rate
-- ✅ The failure mode is "wrong chunk" not "corrupted chunk"
+-  As long as cosine similarity > threshold, correct chunk ID retrieved
+-  Once correct ID retrieved, codebook decrypts to perfect data (with master key)
+-  Higher dimensionality → better similarity scores → lower failure rate
+-  The failure mode is "wrong chunk" not "corrupted chunk"
 - ℹ️ See ADR-007 for codebook security and VSA-lens encoding details
 
 **Failure Analysis**:
@@ -325,10 +325,10 @@ impl VSAConfig {
 ```
 
 **Benefits**:
-- ✅ No computational cost increase
-- ✅ Significantly better collision resistance
-- ✅ Better signal separation for deep operations
-- ✅ Simple to implement
+-  No computational cost increase
+-  Significantly better collision resistance
+-  Better signal separation for deep operations
+-  Simple to implement
 
 **Estimated Impact**:
 - Bundle/Bind/Cosine: No change (~5-10μs)
@@ -344,9 +344,9 @@ impl VSAConfig {
 - Add block-aware hashing
 
 **Benefits**:
-- ✅ Enable scaling to 1M+ dimensions
-- ✅ Better cache performance
-- ✅ SIMD-friendly within blocks
+-  Enable scaling to 1M+ dimensions
+-  Better cache performance
+-  SIMD-friendly within blocks
 
 #### Phase 3: Multi-Resolution Encoding (6-12 months)
 
@@ -356,9 +356,9 @@ impl VSAConfig {
 - Storage format changes
 
 **Benefits**:
-- ✅ Fast approximate queries
-- ✅ High precision when needed
-- ✅ Graceful degradation
+-  Fast approximate queries
+-  High precision when needed
+-  Graceful degradation
 
 ## Performance Projections
 
@@ -591,21 +591,21 @@ Configuration: 10K @ 1% (200 non-zero)
 - Collisions detected: 8
 - Collision rate: 0.0008%
 - Expected: ~0.0010%
-- Status: ✅ Matches theory
+- Status:  Matches theory
 
 Configuration: 50K @ 0.4% (200 non-zero)
 - Trials: 1,000,000
 - Collisions detected: 0
 - Collision rate: <0.0001%
 - Expected: ~0.00001%
-- Status: ✅ Better than minimum detection threshold
+- Status:  Better than minimum detection threshold
 
 Configuration: 100K @ 0.2% (200 non-zero)
 - Trials: 1,000,000
 - Collisions detected: 0
 - Collision rate: <0.0001%
 - Expected: ~0.0000001%
-- Status: ✅ Zero collisions in 1M trials
+- Status:  Zero collisions in 1M trials
 ```
 
 ### Deep Operation Noise Simulation
@@ -620,9 +620,9 @@ Level 1: 0.951
 Level 2: 0.903
 Level 3: 0.857
 Level 4: 0.813
-Level 5: 0.771 ⚠️ (close to threshold)
-Level 6: 0.731 ❌ (below threshold)
-Status: ⚠️ Fails at depth 6
+Level 5: 0.771  (close to threshold)
+Level 6: 0.731  (below threshold)
+Status:  Fails at depth 6
 
 Configuration: 50K @ 0.4%
 Level 0: 1.000
@@ -631,9 +631,9 @@ Level 2: 0.952
 Level 3: 0.929
 Level 4: 0.906
 Level 5: 0.884
-Level 10: 0.803 ✅ (still above threshold)
-Level 15: 0.729 ⚠️ (approaching threshold)
-Status: ✅ Supports 10-15 levels
+Level 10: 0.803  (still above threshold)
+Level 15: 0.729  (approaching threshold)
+Status:  Supports 10-15 levels
 
 Configuration: 100K @ 0.2%
 Level 0: 1.000
@@ -643,8 +643,8 @@ Level 3: 0.964
 Level 4: 0.952
 Level 5: 0.941
 Level 10: 0.885
-Level 20: 0.774 ✅ (still above threshold)
-Status: ✅ Supports 20+ levels
+Level 20: 0.774  (still above threshold)
+Status:  Supports 20+ levels
 ```
 
 **Conclusion**: Higher dimensionality with adaptive sparsity provides exponentially better noise resilience for deep operations.

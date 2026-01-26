@@ -213,54 +213,54 @@ pub struct SubEngramRef {
 
 ### Positive
 
-✅ **Dual-Format Flexibility**: Supports both simple blob workflows (flat) and structured hierarchical workflows (hierarchical) with appropriate overhead for each.
+ **Dual-Format Flexibility**: Supports both simple blob workflows (flat) and structured hierarchical workflows (hierarchical) with appropriate overhead for each.
 
-✅ **Human-Readable Metadata**: JSON format enables:
+ **Human-Readable Metadata**: JSON format enables:
 - Inspection without specialized tools: `cat manifest.json | jq '.levels[0].items[] | select(.path | contains("src"))'`
 - Version control with meaningful diffs
 - Third-party integration without Rust dependency
 
-✅ **Path-Based Queries**: Natural query model:
+ **Path-Based Queries**: Natural query model:
 - `query-text --path "src/lib.rs"` (exact match)
 - `query-text --path-pattern "src/**/*.rs"` (future: glob support)
 - Efficient lookup via flat `items` array
 
-✅ **Selective Extraction**: Sub-engram references enable:
+ **Selective Extraction**: Sub-engram references enable:
 - Extract `src/` subtree without loading `tests/`, `docs/`
 - Lazy loading of hierarchy branches
 - Partial decoding for large engrams
 
-✅ **Extensible Format**: Version field enables evolution:
+ **Extensible Format**: Version field enables evolution:
 - Add new fields without breaking old readers (minor version bump)
 - Migrate to v2 when needed (major version bump, conversion tool)
 - Readers can support multiple versions gracefully
 
-✅ **Deterministic Builds**: `BTreeMap` for sorted keys ensures:
+ **Deterministic Builds**: `BTreeMap` for sorted keys ensures:
 - Reproducible manifests across runs (ADR-009)
 - Stable git diffs
 - CI/CD validation via hash comparison
 
-✅ **Tooling Independence**: JSON format means:
+ **Tooling Independence**: JSON format means:
 - Python/Node.js/shell scripts can parse manifests
 - No need to link against Rust library for inspection
 - Standard tooling (`jq`, `yq`, etc.) works out-of-the-box
 
 ### Negative
 
-⚠️ **Manifest Size Scales with Structure**: Large directory trees produce large manifests:
+ **Manifest Size Scales with Structure**: Large directory trees produce large manifests:
 - 10,000 files → ~1-2 MB JSON (depending on path lengths)
 - **Mitigation**: Compress manifests (gzip achieves 80-90% reduction for typical paths)
 - **Mitigation**: Manifests are metadata, not data; size is manageable for most use cases
 - **Future**: Add `ManifestLevel::summary` field with aggregate stats to avoid loading full manifest
 
-⚠️ **Format Versioning Overhead**: Requires maintenance:
+ **Format Versioning Overhead**: Requires maintenance:
 - Must handle version field in all readers/writers
 - Conversion tools needed when introducing v2
 - Deprecation policy for old versions
 - **Mitigation**: Version 1 is stable; changes will be rare and backward-compatible when possible
 - **Mitigation**: Follow semver principles; only major versions break compatibility
 
-⚠️ **Dual API Surface**: Supporting both flat and hierarchical requires:
+ **Dual API Surface**: Supporting both flat and hierarchical requires:
 - Enum handling in all manifest-consuming code
 - Potential confusion about which format to use when
 - **Mitigation**: Clear CLI separation (`ingest` vs `bundle-hier`)

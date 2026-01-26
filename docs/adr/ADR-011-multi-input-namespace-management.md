@@ -216,25 +216,25 @@ Merge all inputs into a single namespace without prefixing. Files with identical
 
 ### Positive Consequences
 
-✅ **Flexible Ingest Workflows**: Users can ingest multiple projects, documentation trees, or selective directories in a single command, streamlining complex workflows.
+ **Flexible Ingest Workflows**: Users can ingest multiple projects, documentation trees, or selective directories in a single command, streamlining complex workflows.
 
-✅ **Prevents Silent Path Collisions**: Automatic namespace prefixing guarantees that files from different inputs never overwrite each other, ensuring data integrity.
+ **Prevents Silent Path Collisions**: Automatic namespace prefixing guarantees that files from different inputs never overwrite each other, ensuring data integrity.
 
-✅ **Human-Readable Prefixes**: Prefixes based on directory basenames are intuitive and easy to understand in query results (e.g., `project_a/docs/README.md`).
+ **Human-Readable Prefixes**: Prefixes based on directory basenames are intuitive and easy to understand in query results (e.g., `project_a/docs/README.md`).
 
-✅ **Backward Compatible**: Single-input use cases (the majority of current usage) continue to work without modification. No prefix is applied, preserving existing behavior.
+ **Backward Compatible**: Single-input use cases (the majority of current usage) continue to work without modification. No prefix is applied, preserving existing behavior.
 
-✅ **Automatic Collision Avoidance**: Numeric suffixes handle edge cases (multiple inputs with the same basename) without user intervention or manual namespace specification.
+ **Automatic Collision Avoidance**: Numeric suffixes handle edge cases (multiple inputs with the same basename) without user intervention or manual namespace specification.
 
-✅ **Deterministic Behavior**: Prefix assignment is deterministic based on input order, ensuring reproducible engram construction.
+ **Deterministic Behavior**: Prefix assignment is deterministic based on input order, ensuring reproducible engram construction.
 
 ### Negative Consequences / Trade-offs
 
-⚠️ **Prefix Visible in Query Results**: Users must understand the namespace convention. Query results for "README" will include prefixes like `project_a/docs/README.md` and `project_b/docs/README.md`. This requires minimal user education but is a conceptual overhead.
+ **Prefix Visible in Query Results**: Users must understand the namespace convention. Query results for "README" will include prefixes like `project_a/docs/README.md` and `project_b/docs/README.md`. This requires minimal user education but is a conceptual overhead.
 
-⚠️ **Potential Verbosity**: For deeply nested directory structures, the full engram path (prefix + relative path) can be lengthy. However, this is a minor UX issue and preferable to path collisions.
+ **Potential Verbosity**: For deeply nested directory structures, the full engram path (prefix + relative path) can be lengthy. However, this is a minor UX issue and preferable to path collisions.
 
-⚠️ **No Manual Override**: Users cannot override the automatic prefix with a custom namespace (rejected Alternative 1). This is intentional to keep the API simple, but power users may occasionally want manual control.
+ **No Manual Override**: Users cannot override the automatic prefix with a custom namespace (rejected Alternative 1). This is intentional to keep the API simple, but power users may occasionally want manual control.
 
 ## API Design
 
