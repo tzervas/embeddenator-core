@@ -74,10 +74,12 @@ proptest = "1.4"
 
 [features]
 default = []
-fuse = ["fuser"]
+fuse = ["fuser", "embeddenator-fs/fuse", "embeddenator-cli/fuse"]
 qa = []
 soak-memory = []
-simd = []
+simd = ["embeddenator-vsa/simd"]
+block-sparse = ["embeddenator-vsa/block-sparse"]
+cuda = ["embeddenator-vsa/cuda"]
 
 # Heavy invariant tests / aggressive randomized checks for ternary refactors.
 ternary-refactor = []

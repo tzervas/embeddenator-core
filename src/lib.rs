@@ -86,6 +86,10 @@ pub use embeddenator_vsa::{
     SemanticOutlier, SparseVec, Trit, Trit as DimTrit, TritDepthConfig, Tryte, Tryte3, Word6,
     WordMetadata, DIM,
 };
+
+// Block-sparse types (when feature enabled)
+#[cfg(feature = "block-sparse")]
+pub use embeddenator_vsa::{Block, BlockSparseError, BlockSparseTritVec, BLOCK_SIZE};
 // Retrieval types from embeddenator-retrieval component
 pub use embeddenator_retrieval::resonator::Resonator;
 pub use embeddenator_retrieval::{RerankedResult, SearchResult, TernaryInvertedIndex};
