@@ -2,15 +2,8 @@ name: CI amd64 Build and Test
 
 # This workflow runs as a required pre-merge check
 # It must pass before code can be merged to main
+# Manual only — no push/pull_request CI triggers
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-  push:
-    branches: [ main ]
-  workflow_run:
-    workflows: ["CI Pre-Checks"]
-    types:
-      - completed
   workflow_dispatch:
     inputs:
       debug_mode:

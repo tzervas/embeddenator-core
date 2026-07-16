@@ -1,5 +1,6 @@
 name: Build and Push Holographic OS Images
 
+# Manual only — no push/pull_request CI triggers
 on:
   workflow_dispatch:
     inputs:

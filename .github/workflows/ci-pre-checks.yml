@@ -1,9 +1,7 @@
 name: CI Pre-Checks
 
+# Manual only — no push/pull_request CI triggers
 on:
-  push:
-    branches: [ main ]
-  pull_request:
   workflow_dispatch:
     inputs:
       debug_mode:

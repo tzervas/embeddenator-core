@@ -1,5 +1,6 @@
 name: Build Holographic OS Containers
 
+# Manual only — no push/pull_request CI triggers
 on:
   workflow_dispatch:
     inputs:
