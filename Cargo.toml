@@ -46,14 +46,15 @@ name = "embeddenator"
 path = "src/main.rs"
 
 [dependencies]
-# Embeddenator component libraries (path dependencies for local dev, version for crates.io)
-embeddenator-vsa = { version = "0.21.0", path = "../embeddenator-vsa" }
-embeddenator-retrieval = { version = "0.21.0", path = "../embeddenator-retrieval" }
-embeddenator-fs = { version = "0.23.0", path = "../embeddenator-fs" }
-embeddenator-interop = { version = "0.22.0", path = "../embeddenator-interop" }
-embeddenator-io = { version = "0.21.0", path = "../embeddenator-io" }
-embeddenator-obs = { version = "0.21.0", path = "../embeddenator-obs", features = ["tracing"] }
-embeddenator-cli = { version = "0.21.0", path = "../embeddenator-cli" }
+# Path deps when sibling repos exist under the parent directory; semver ranges match current component mains.
+# Standalone clone: run `scripts/bootstrap-sibling-crates.sh` (or init embeddenator superproject submodules).
+embeddenator-vsa = { version = ">=0.21.0, <1.0.0", path = "../embeddenator-vsa" }
+embeddenator-retrieval = { version = ">=0.21.0, <1.0.0", path = "../embeddenator-retrieval" }
+embeddenator-fs = { version = ">=0.23.0, <1.0.0", path = "../embeddenator-fs" }
+embeddenator-interop = { version = ">=0.21.0, <1.0.0", path = "../embeddenator-interop" }
+embeddenator-io = { version = ">=0.21.0, <1.0.0", path = "../embeddenator-io" }
+embeddenator-obs = { version = ">=0.21.0, <1.0.0", path = "../embeddenator-obs", features = ["tracing"] }
+embeddenator-cli = { version = ">=0.21.0, <1.0.0", path = "../embeddenator-cli" }
 
 # External dependencies
 clap = { version = "4.5", features = ["derive"] }
