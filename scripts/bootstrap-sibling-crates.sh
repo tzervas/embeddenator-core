@@ -18,12 +18,12 @@ crates=(
 
 for name in "${crates[@]}"; do
   dest="${parent}/${name}"
-  if [[ -d "${dest}/Cargo.toml" ]]; then
+  if [[ -f "${dest}/Cargo.toml" ]]; then
     echo "ok: ${dest}"
     continue
   fi
   super="${parent}/embeddenator/${name}"
-  if [[ -d "${super}/Cargo.toml" ]]; then
+  if [[ -f "${super}/Cargo.toml" ]]; then
     echo "link: ${dest} -> ${super}"
     ln -sfn "${super}" "${dest}"
     continue
