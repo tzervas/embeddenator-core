@@ -19,7 +19,7 @@ env:
 
 jobs:
   pre-checks:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, podman]
     permissions:
       contents: read
     steps:

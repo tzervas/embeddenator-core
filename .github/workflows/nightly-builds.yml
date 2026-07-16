@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   build-nightly:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, podman]
     strategy:
       matrix:
         include:
@@ -130,7 +130,7 @@ jobs:
   summary:
     needs: [build-nightly]
     if: always()
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, podman]
     steps:
       - name: Download all metadata
         uses: actions/download-artifact@v4.1.3
