@@ -87,7 +87,7 @@ jobs:
 
   # Generate matrix from comma-separated input
   prepare-matrix:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, podman]
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
@@ -265,7 +265,7 @@ jobs:
   summary:
     needs: [prepare-matrix, build-and-push-arm64]
     if: always()
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, podman]
     steps:
       - name: Download all manifests
         uses: actions/download-artifact@v4.1.3

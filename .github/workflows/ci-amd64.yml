@@ -27,7 +27,7 @@ jobs:
     name: AMD64 Build and Test (Required for Merge)
     # Only run if pre-checks passed or if triggered directly
     if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, podman]
     timeout-minutes: 30
     permissions:
       contents: read

@@ -48,7 +48,7 @@ jobs:
     name: ARM64 Build and Test (Self-Hosted)
     # Configured for self-hosted ARM64 runners
     # Labels: ["self-hosted", "linux", "ARM64"]
-    runs-on: ${{ github.event.inputs.runner_type == 'self-hosted' && fromJSON('["self-hosted", "linux", "ARM64"]') || 'ubuntu-latest' }}
+    runs-on: ${{ github.event.inputs.runner_type == 'self-hosted' && fromJSON('["self-hosted", "linux", "ARM64"]') || fromJSON('["self-hosted", "linux", "x64", "podman"]') }}
     timeout-minutes: 45  # Increased for potential emulation
     permissions:
       contents: read

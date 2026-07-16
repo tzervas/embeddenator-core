@@ -15,7 +15,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, podman]
     strategy:
       matrix:
         arch: [amd64, arm64]
@@ -64,7 +64,7 @@ jobs:
   
   manifest:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, podman]
     
     permissions:
       contents: read
@@ -109,7 +109,7 @@ jobs:
   
   security-scan:
     needs: manifest
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, podman]
     
     permissions:
       contents: read

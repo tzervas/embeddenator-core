@@ -32,7 +32,7 @@ permissions:
 jobs:
   test:
     if: ${{ inputs.run_tests }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, podman]
     steps:
       - uses: actions/checkout@v4
       
@@ -55,7 +55,7 @@ jobs:
 
   # Generate matrix from comma-separated input
   prepare-matrix:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, podman]
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
@@ -77,7 +77,7 @@ jobs:
   build-and-push:
     needs: [test, prepare-matrix]
     if: ${{ always() && (needs.test.result == 'success' || needs.test.result == 'skipped') }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, podman]
     strategy:
       matrix:
         os_config: ${{ fromJSON(needs.prepare-matrix.outputs.matrix) }}
@@ -178,7 +178,7 @@ jobs:
   summary:
     needs: [prepare-matrix, build-and-push]
     if: always()
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, podman]
     steps:
       - name: Download all manifests
         uses: actions/download-artifact@v4.1.3
