@@ -24,7 +24,24 @@ This guide covers **local development workflows** for working across multiple Em
 
 ### Directory Structure
 
-Clone all component repos into a common parent directory:
+**Option A — superproject (submodules):**
+
+```bash
+git clone https://github.com/tzervas/embeddenator
+cd embeddenator
+./scripts/init-submodules.sh   # requires .gitmodules on your branch
+```
+
+**Option B — standalone `embeddenator-core`:**
+
+```bash
+git clone https://github.com/tzervas/embeddenator-core
+cd embeddenator-core
+./scripts/bootstrap-sibling-crates.sh
+cargo test
+```
+
+**Option C — flat multi-repo layout:** clone all component repos into a common parent directory:
 
 ```bash
 mkdir ~/embeddenator-workspace

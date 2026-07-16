@@ -1,0 +1,25 @@
+# Optional: use sibling component repos under the parent directory (multi-repo layout).
+# Copy to config.toml when ../embeddenator-* checkouts exist.
+#
+#   mkdir -p .cargo && cp .cargo/config.toml.example .cargo/config.toml
+
+[patch."https://github.com/tzervas/embeddenator-vsa.git"]
+embeddenator-vsa = { path = "../embeddenator-vsa" }
+
+[patch."https://github.com/tzervas/embeddenator-retrieval.git"]
+embeddenator-retrieval = { path = "../embeddenator-retrieval" }
+
+[patch."https://github.com/tzervas/embeddenator-fs.git"]
+embeddenator-fs = { path = "../embeddenator-fs" }
+
+[patch."https://github.com/tzervas/embeddenator-interop.git"]
+embeddenator-interop = { path = "../embeddenator-interop" }
+
+[patch."https://github.com/tzervas/embeddenator-io.git"]
+embeddenator-io = { path = "../embeddenator-io" }
+
+[patch."https://github.com/tzervas/embeddenator-obs.git"]
+embeddenator-obs = { path = "../embeddenator-obs" }
+
+[patch."https://github.com/tzervas/embeddenator-cli.git"]
+embeddenator-cli = { path = "../embeddenator-cli" }

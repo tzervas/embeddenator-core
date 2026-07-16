@@ -377,7 +377,7 @@ checksum = "48c757948c5ede0e46177b7add2e67155f70e33c07fea8284df6576da70b3719"
 
 [[package]]
 name = "embeddenator-cli"
-version = "0.21.1"
+version = "0.22.0"
 dependencies = [
  "anyhow",
  "bincode",
@@ -418,7 +418,7 @@ dependencies = [
 
 [[package]]
 name = "embeddenator-fs"
-version = "0.23.0"
+version = "0.25.0"
 dependencies = [
  "arc-swap",
  "bincode",
@@ -428,6 +428,7 @@ dependencies = [
  "embeddenator-vsa",
  "fuser",
  "libc",
+ "rayon",
  "rustc-hash",
  "serde",
  "serde_json",
@@ -470,21 +471,23 @@ dependencies = [
 
 [[package]]
 name = "embeddenator-retrieval"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "bincode",
  "embeddenator-vsa",
+ "rayon",
  "serde",
  "sha2",
 ]
 
 [[package]]
 name = "embeddenator-vsa"
-version = "0.21.0"
+version = "0.23.0"
 dependencies = [
  "cudarc",
  "libc",
  "rand",
+ "rayon",
  "rustc-hash",
  "serde",
  "serde_json",
