@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `embeddenator-vsa` wrap of `trit-vsa` 0.3 (`PackedTritVec` plus/minus
   planes). Holographic bind remains element-wise trit multiplication
   (`P*P=P`); this crate does not depend on `trit-vsa` directly.
+- `bt-phase-2` is a test gate around packed scratch that already shipped
+  ungated in `embeddenator-vsa`. `bt-phase-3` is still empty (no
+  `VsaBackend` / BT-native default substrate yet).
 
 ### Fixed
 - Retract the 0.22.0 / 0.21.2 claim that `qlora-candle-*` v0.8.4 is on crates.io.

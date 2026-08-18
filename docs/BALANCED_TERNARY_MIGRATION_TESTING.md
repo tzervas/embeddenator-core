@@ -9,17 +9,25 @@ To avoid regressions, testing shifts in **phases**. Each phase enables stricter 
 - `bt-phase-1`
   - Enables heavy refactor invariants (`ternary-refactor`) and adds phase-1 equivalence checks.
   - Goal: prove that `PackedTritVec` basic ops match existing `SparseVec` semantics.
+  - As of 2026-08-18 this gate runs against the sibling `embeddenator-vsa` wrap of
+    `trit-vsa` 0.3. Holographic bind is still trit multiplication (`P*P=P`).
 
 - `bt-phase-2`
-  - Reserved for when packed fast paths start replacing hot `SparseVec` internals.
-  - Will add higher-coverage invariants and cross-backend comparisons (e.g., packed vs word-wise packed).
+  - **Honesty (2026-08-18):** this is a *test gate*, not a future implementation.
+    Packed scratch for bundle/bind already shipped unconditional in
+    `embeddenator-vsa` (density `DIM/8`, not `cfg(feature = "bt-phase-2")`).
+    `--features bt-phase-2` only enables `tests/bt_phase2_scratch_invariants.rs`
+    (TLS scratch checks). It does not switch the runtime substrate.
 
 - `bt-phase-3`
-  - Reserved for when balanced-ternary-native execution is the default substrate.
-  - Will add end-to-end invariants that assert reconstruction/correction remains sacred.
+  - **Still empty.** Feature is `bt-phase-3 = ["bt-phase-2"]` with no
+    `bt_phase3_*` tests. Real phase-3 is a BT-native default substrate /
+    `VsaBackend` trait (see `docs/KERNEL_VSA_INTEROP.md`), not this flag.
+    Do not start that work until the vsa wrap + core/retrieval/fs gates are green.
 
 - `bt-migration`
-  - Convenience umbrella for the highest currently-implemented phase.
+  - Convenience umbrella for the highest currently-implemented phase
+    (today: phase-2 test gate).
 
 ## How to run
 
