@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- `bt-phase-1` packed-equivalence gate runs against the sibling
+  `embeddenator-vsa` wrap of `trit-vsa` 0.3 (`PackedTritVec` plus/minus
+  planes). Holographic bind remains element-wise trit multiplication
+  (`P*P=P`); this crate does not depend on `trit-vsa` directly.
+
 ### Fixed
 - Retract the 0.22.0 / 0.21.2 claim that `qlora-candle-*` v0.8.4 is on crates.io.
   Those crate names **do not exist**. Candle is a git fork:
