@@ -5,6 +5,17 @@ All notable changes to Embeddenator will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+- Retract the 0.22.0 / 0.21.2 claim that `qlora-candle-*` v0.8.4 is on crates.io.
+  Those crate names **do not exist**. Candle is a git fork:
+  `https://github.com/tzervas/qlora-candle.git` branch `use-qlora-gemm`,
+  package names stay `candle-core` / `candle-nn` / `candle-transformers` at **0.9.2**.
+  `qlora-paste` on crates.io is **1.0.21**. Canonical guide:
+  [tzervas/embeddenator/MAINTAINED_DEPENDENCIES.md](https://github.com/tzervas/embeddenator/blob/main/MAINTAINED_DEPENDENCIES.md)
+  (this repo has no local copy).
+
 ## [0.22.1] - 2026-01-27
 
 ### Added
